@@ -53,11 +53,13 @@ const articleName = (name, date) => `${dateStr(new Date(date))}-${name}.md`
 
 const makeArticle = release => `
 ---
-title: "${release.name}"
-author: "${release.author.login}"
+title: ${JSON.stringify(release.name)}
+author: ${JSON.stringify(release.author.login)}
 date: "${new Date(release.published_at).toISOString()}"
 ---
 ${release.body}
+
+> See: [GitHub release page](${release.html_url})
 
 ##### Download links:
 ${release.assets.filter(a => assetRegex.test(a.name)).map(assetLink).join('\n') || '- None'}
