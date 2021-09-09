@@ -37,6 +37,7 @@ const dateStr = date => date.getFullYear().toString()
 
 const json = url => c(url)
   .header('User-Agent', USER_AGENT)
+  .header('Application-Type', 'application/vnd.github.v3+json')
   .send()
   .then(r => r.json())
 
