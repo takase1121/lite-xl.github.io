@@ -23,6 +23,6 @@ const eleventy = () => exec('npx', '@11ty/eleventy')
 const watchCss = () => watch('./**/*.scss', parallel(css))
 const watchEleventy = () => exec('npx', '@11ty/eleventy', '--serve')
 
-const build = series(flags, css, eleventy)
-exports.default = build
+exports.default = series(flags, css, eleventy)
+exports.gh_ci = series(flags, css)
 exports.dev = series(flags, css, parallel(watchCss, watchEleventy))

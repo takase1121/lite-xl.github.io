@@ -4,7 +4,8 @@
 	"author": "redtide <redtid3@gmail.com>",
 	"homepage": "https://lite-xl.github.io",
 	"scripts": {
-		"dist": "gulp"
+		"dist": "gulp",
+    "dist-ci": "gulp gh_ci"
 	},
 	"browserslist": [
 		"defaults"
