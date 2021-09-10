@@ -18,7 +18,7 @@
 	},
 	"license": "Apache-2.0",
 	"engines": {
-		"node": ">= 10.13.0"
+		"node": ">= 14"
 	},
 	"dependencies": {
 		"bootstrap": "^4.4.1",
