@@ -14,7 +14,7 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - name: Set environment variables
-        if: {{ github.repository_owner == 'lite-xl' }}
+        if: ${{ github.repository_owner 1= 'lite-xl' }}
         run: echo "PATH_PREFIX=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
       - name: Build website
         run: yarn --no-bin-links && yarn dist
