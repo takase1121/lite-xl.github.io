@@ -7,6 +7,7 @@
 /assets/css/style.min.css
 /assets/js/*.map
 /assets/js/scripts.min.js
+/assets/flags
 /node_modules
 /vendor/*
 Gemfile.lock
