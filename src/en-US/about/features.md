@@ -17,7 +17,7 @@ While the editor is minimal by default, it is very extensible using Lua. In fact
 The editor looks good in screen of any sizes. Some other options are also configurable, such as hinting and antialiasing.
 
 #### Multi-cursor editing
-You can now place multiple cursors by {% kbd ^ click %} on lines or {% kbd ^ up / ^ down %}.
+You can now place multiple cursors by {% kbd 'ctrl+click' %} on lines or {% kbd 'ctrl+up / ctrl+down' %}.
 
 
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Lite XL"
 date_fmt: "%d %B %Y"
+permalink: '/index.html'
 ---
 A lightweight text editor written in Lua, adapted from [lite].
 
@@ -10,4 +11,4 @@ A lightweight text editor written in Lua, adapted from [lite].
 
 
 [lite]:       https://github.com/rxi/lite/
-[Screenshot]: {{ 'assets/img/screenshots/editor.png' | relative_url }}
+[Screenshot]: {{ 'assets/img/screenshots/editor.png' | url }}

@@ -16,7 +16,7 @@ Lite XL works using a *project directory* — this is the directory where your
 project's code and other data resides.
 
 To open a specific project directory the directory name can be passed
-as a command-line argument *({% kbd . %} can be passed to use the current directory)*
+as a command-line argument *(`.` can be passed to use the current directory)*
 or the directory can be dragged onto either the executable or a running instance.
 
 Once started the project directory can be changed using the command
@@ -29,14 +29,14 @@ project directory.
 
 The main way of opening files in Lite XL is through the `core:find-file` command
 — this provides a fuzzy finder over all of the project's files and can be
-opened using the {% kbd ctrl+p %} shortcut by default.
+opened using the {% kbd 'ctrl+p' %} shortcut by default.
 
 Commands can be run using keyboard shortcuts, or by using the `core:find-command`
-command bound to {% kbd ctrl+shift+p %} by default. For example, pressing
-the above combination and typing `newdoc` then pressing {% kbd return %}
+command bound to {% kbd 'ctrl+shift+p' %} by default. For example, pressing
+the above combination and typing `newdoc` then pressing {% kbd 'return' %}
 would open a new document. The current keyboard shortcut for a command
 can be seen to the right of the command name on the command finder, thus to find
-the shortcut for a command {% kbd ctrl+shift+p %} can be pressed
+the shortcut for a command {% kbd 'ctrl+shift+p' %} can be pressed
 and the command name typed.
 
 ## User Data Directories
@@ -91,7 +91,7 @@ command is run it will be created.
 In addition to the project directories it is possible to add other directories
 using the command `core:add-directory`.
 Once added a directory it will be shown in the tree-view on the left side and
-the additional files will be reachable using the {% kbd ctrl+p %} command (find file).
+the additional files will be reachable using the {% kbd 'ctrl+p' %} command (find file).
 The additonal files will be also visible when searching across the project.
 
 The additional directories can be removed using the command `core:remove-directory`.
@@ -109,7 +109,7 @@ tree-view to create a new empty subdirectory.
 
 ## Commands
 
-Commands are used both through the command finder ({% kbd ctrl+shift+p %}) and
+Commands are used both through the command finder ({% kbd 'ctrl+shift+p' %}) and
 by Lite XL's keyboard shortcut system. Commands consist of 3 components:
 
 * **Name** — The command name in the form of `namespace:action-name`, for
@@ -146,12 +146,12 @@ command.perform "core:quit"
 ## Keymap
 
 All keyboard shortcuts are handled by the `core.keymap` module.
-A key binding maps a "stroke" (eg. {% kbd ctrl+q %}) to one or more commands
+A key binding maps a "stroke" (eg. {% kbd 'ctrl+q' %}) to one or more commands
 (eg. `core:quit`). When the shortcut is pressed Lite XL will iterate each command
 assigned to that key and run the *predicate function* for that command — if the
 predicate passes it stops iterating and runs the command.
 
-An example of where this used is the default binding of the {% kbd tab %} key:
+An example of where this used is the default binding of the {% kbd 'tab' %} key:
 
 ``` lua
   ["tab"] = { "command:complete", "doc:indent" },
