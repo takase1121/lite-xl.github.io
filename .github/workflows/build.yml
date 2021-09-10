@@ -15,8 +15,6 @@ jobs:
           cache: 'yarn'
       - name: Generate assets
         run: yarn --no-bin-links && yarn dist
-      - name: Eleventy
-        uses: TartanLlama/actions-eleventy@v1.2
       - name: Upload to GitHub pages
         uses: peaceiris/actions-gh-pages@v3
         with:
