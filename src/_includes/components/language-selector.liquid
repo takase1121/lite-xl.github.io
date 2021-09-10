@@ -1,0 +1,42 @@
+{% assign page_url = page.url | split: '/' | slice: 2 | | join: '/' %}
+
+{% if locales.length > 1 %}
+<li class="nav-item dropdown">
+	<a
+		id="navbarMenuLang"
+		class="nav-link dropdown-toggle font-weight-bold"
+		data-toggle="dropdown"
+		aria-expanded="false"
+		aria-haspopup="true"
+		href="#"
+	>
+	{% assign default_lang = locales | where: 'code', site.locale.default | first %}
+	<span class="flag-icon flag-icon-{{ default_lang.code | split:'-' | last | downcase }}"></span>
+	{{ default_lang.label }}
+	</a>
+
+	<div
+			id="language-menu"
+			class="dropdown-menu"
+			data-default="{{ site.locale.default }}"
+			aria-labelledby="navbarMenuLang"
+	>
+
+	{% assign languages = locales | sort_natural: 'label' %}
+	{% for language in languages %}
+		<a
+			class="dropdown-item font-weight-bold"
+			data-lang="{{ language.code }}"
+			{% unless language.code == site.locale.default %}
+			href="/{{ language.code }}/{{ page_url }}"
+		  {% endunless %}
+			hreflang="{{ language.code }}"
+			rel="alternate"
+		>
+		<span class="flag-icon flag-icon-{{ language.code | split:'-' | last | downcase }}"></span>
+		{{ language.label }}
+		</a>
+	{% endfor %}
+	</div>
+</li>
+{% endif %}
