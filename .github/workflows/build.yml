@@ -13,7 +13,10 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - name: Generate assets
+      - name: Set environment variables
+        if: {{ github.repository_owner == 'lite-xl' }}
+        run: echo "PATH_PREFIX=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+      - name: Build website
         run: yarn --no-bin-links && yarn dist
       - name: Upload to GitHub pages
         uses: peaceiris/actions-gh-pages@v3

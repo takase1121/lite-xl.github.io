@@ -19,5 +19,6 @@ module.exports = config => {
     },
     templateFormats: ['html', 'md', 'liquid'],
     HTMLTemplateEngine: 'liquid',
+    pathPrefix: process.env.PATH_PREFIX ?? '/'
   }
 }
