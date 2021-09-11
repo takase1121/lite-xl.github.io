@@ -17,7 +17,7 @@ jobs:
         if: ${{ github.repository_owner != 'lite-xl' }}
         run: echo "PATH_PREFIX=/$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')/" >> $GITHUB_ENV
       - name: Build website
-        run: yarn --no-bin-links --production=false && yarn dist
+        run: yarn && yarn dist
       - name: Upload to GitHub pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
