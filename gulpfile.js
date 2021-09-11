@@ -23,5 +23,5 @@ const eleventy = () => exec('npx', '@11ty/eleventy')
 const watchCss = () => watch('./**/*.scss', parallel(css))
 const watchEleventy = () => exec('npx', '@11ty/eleventy', '--serve')
 
-exports.default = series(flags, css, eleventy)
-exports.dev = series(flags, css, parallel(watchCss, watchEleventy))
+exports.default = series(parallel(flags, css), eleventy)
+exports.dev = series(parallel(flags, css), parallel(watchCss, watchEleventy))
