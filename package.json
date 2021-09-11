@@ -4,6 +4,7 @@
 	"author": "redtide <redtid3@gmail.com>",
 	"homepage": "https://lite-xl.github.io",
 	"scripts": {
+    "dev": "gulp dev",
 		"dist": "gulp"
 	},
 	"browserslist": [
