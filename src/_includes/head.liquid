@@ -16,13 +16,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Atom Feeds -->
-		<link href="{{ "/atom.xml" | relative_url }}" rel="alternate" title="News" type="application/atom+xml" />
+		<link href="{{ "/atom.xml" | url }}" rel="alternate" title="News" type="application/atom+xml" />
 
 		{% include favicons.liquid %}
 		<!-- Stylesheets -->
-		<link href="{{ "/assets/css/style.css" | relative_url }}" rel="stylesheet" media="screen">
+		<link href="{{ "/assets/css/style.css" | url }}" rel="stylesheet" media="screen">
 		{%-for stylesheet in page.stylesheets-%}
-		<link href="{{ "/assets/css/" | append: stylesheet | append: ".css" | relative_url }}" rel="stylesheet">
+		<link href="{{ "/assets/css/" | append: stylesheet | append: ".css" | url }}" rel="stylesheet">
 		{% endfor %}
 		{% include custom-styles.liquid %}
 		<!-- Font Awesome Icons -->
