@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en-US" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+
+		<title></title>
+
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Atom Feeds -->
+		<link href="/atom.xml" rel="alternate" title="News" type="application/atom+xml" />
+
+				<!-- Favicon Generator Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/ico/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/ico/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/ico/favicon-16x16.png">
+		<link rel="manifest" href="/assets/ico/site.webmanifest">
+		<link rel="mask-icon" href="/assets/ico/safari-pinned-tab.svg" color="#302e31">
+		<link rel="shortcut icon" href="/assets/ico/favicon.ico">
+		<meta name="msapplication-TileColor" content="#302e31">
+		<meta name="msapplication-config" content="/assets/ico/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+
+		<!-- Stylesheets -->
+		<link href="/assets/css/style.css" rel="stylesheet" media="screen">
+		    <link href="/assets/css/ekko-lightbox.css" rel="stylesheet">
+
+		<!-- Font Awesome Icons -->
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/solid.js"       integrity="sha384-Mf3ap7OwO+bjTkzM1RsrothLh38uKXvMWJ2TQPXGHqZcqfeI/cyCV+sfV0IDnBDq" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/brands.js"      integrity="sha384-b2GpqFrJizV0BUEdbrITdOA5HnxnlrErt7MlEERWd6NSJ32rHeibEvyyCuA13OAS" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/fontawesome.js" integrity="sha384-EYYaHDhIRoBhd/Ir/1fPnxg9rZLk/55lKtlNT5KrIcONoCS2kjf7ZWzMoCLLACeo" crossorigin="anonymous"></script>
+
+	</head>
+
+	<body>
+
+		<button
+			data-localize="site_scroll_top"
+			onclick="topFunction()"
+			id="scrollButton"
+			title="Go to top"
+		>
+			Top
+		</button>
+		<a href="#content" class="sr-only">Skip to content</a>
+		<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark header-dark">
+				<a
+					id="logo-link"
+					class="navbar-brand"
+					href="/lite-xl.github.io/"
+				>
+					<img
+						class="d-inline-block align-top"
+						src="/lite-xl.github.io/assets/img/logo.svg"
+						height="32" alt=""
+					> Lite XL</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-target="#navbarContent"
+					data-toggle="collapse"
+					aria-controls="navbarContent"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarContent">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					
+
+
+
+
+						<li class="nav-item">
+							<a
+								class="nav-link font-weight-bold"
+								data-localize="menu_search"
+								href="/search/"
+							>
+							<i class="fas fa-search fa-fw" aria-hidden="true"></i>
+								</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="row mt-4" id="content">
+				<div class="col-md-9">
+					<article>
+
+						<h1></h1>
+
+<p>Once you have downloaded the <a href="en/documentation/build#source-code">source code</a>,
+you can build Lite XL yourself using Meson.
+In addition, the <code>build-packages.sh</code> script can be used to compile Lite XL and
+create an OS-specific package for Linux, Windows or macOS.</p>
+<p>The following libraries are required:</p>
+<ul>
+<li>freetype2</li>
+<li>SDL2</li>
+</ul>
+<p>The following libraries are <strong>optional</strong>:</p>
+<ul>
+<li>libagg</li>
+<li>Lua 5.2</li>
+</ul>
+<p>If they are not found, they will be downloaded and compiled by Meson.
+Otherwise, if they are present, they will be used to compile Lite XL.</p>
+<h2>Build Script</h2>
+<p>If you compile Lite XL yourself,
+it is recommended to use the script <code>build-packages.sh</code>:</p>
+<pre><code class="language-sh">bash build-packages.sh -h
+</code></pre>
+<p>The script will run Meson and create a tar compressed archive with the application or,
+for Windows, a zip file. Lite XL can be easily installed
+by unpacking the archive in any directory of your choice.</p>
+<p>On Windows two packages will be created, one called &quot;portable&quot; using the &quot;data&quot;
+folder next to the executable and the other one using a unix-like file layout.
+Both packages works correctly. The one with unix-like file layout is meant
+for people using a unix-like shell and the command line.</p>
+<p>Please note that there aren't any hard-coded directories in the executable,
+so that the package can be extracted and used in any directory.</p>
+<h2>Portable</h2>
+<p>When performing the <code>meson setup</code> command you may enable the <code>-Dportable=true</code>
+option to specify whether files should be installed as in a portable application.</p>
+<p>If <code>portable</code> is enabled, Lite XL is built to use a <code>data</code> directory placed next
+to the executable.
+Otherwise, Lite XL will use unix-like directory locations.
+In this case, the <code>data</code> directory will be <code>$prefix/share/lite-xl</code>
+and the executable will be located in <code>$prefix/bin</code>.
+<code>$prefix</code> is determined when the application starts as a directory such that
+<code>$prefix/bin</code> corresponds to the location of the executable.</p>
+<p>The <code>user</code> directory does not depend on the <code>portable</code> option and will always be
+<code>$HOME/.config/lite-xl</code>.
+<code>$HOME</code> is determined from the corresponding environment variable.
+As a special case on Windows the variable <code>$USERPROFILE</code> will be used instead.</p>
+<h2>Linux</h2>
+<p>On Debian-based systems the required libraries and Meson can be installed
+using the following commands:</p>
+<pre><code class="language-sh"># To install the required libraries:
+sudo apt install libfreetype6-dev libsdl2-dev
+
+# To install Meson:
+sudo apt install meson
+# or pip3 install --user meson
+</code></pre>
+<p>To build Lite XL with Meson the commands below can be used:</p>
+<pre><code class="language-sh">meson setup --buildtype=release --prefix &lt;prefix&gt; build
+meson compile -C build
+DESTDIR=&quot;$(pwd)/lite-xl&quot; meson install --skip-subprojects -C build
+</code></pre>
+<p>where <code>&lt;prefix&gt;</code> depends on the OS you are using:</p>
+<ul>
+<li>on Linux is <code>/usr</code></li>
+<li>on macOS application bundle can be <code>&quot;/Lite XL.app&quot;</code></li>
+</ul>
+<p>If you are using a version of Meson below 0.54
+you need to use diffent commands to compile and install:</p>
+<pre><code class="language-sh">meson setup --buildtype=release build
+ninja -C build
+ninja -C build install
+</code></pre>
+<h2>macOS</h2>
+<p>macOS is fully supported and a notarized app disk image is provided in the
+<a href="https://github.com/lite-xl/lite-xl/releases/latest/">release page</a>. In addition the application can be compiled using
+the generic instructions given above.</p>
+<h2>Windows MSYS2</h2>
+<p>The build environment chosen for Lite XL on Windows is <a href="https://www.msys2.org/">MSYS2</a>.
+Follow the install instructions in the link.</p>
+<ul>
+<li>Open <code>MinGW 64-bit</code> or <code>MinGW 32-bit</code> shell from the start menu.</li>
+<li>Update the MSYS2 installation with <code>pacman -Syu</code></li>
+<li>Restart the shell</li>
+<li>Install the dependencies:</li>
+</ul>
+<pre><code class="language-sh">pacman -S \
+  ${MINGW_PACKAGE_PREFIX}-freetype \
+  ${MINGW_PACKAGE_PREFIX}-gcc \
+  ${MINGW_PACKAGE_PREFIX}-ninja \
+  ${MINGW_PACKAGE_PREFIX}-pcre2 \
+  ${MINGW_PACKAGE_PREFIX}-pkg-config \
+  ${MINGW_PACKAGE_PREFIX}-python-pip \
+  ${MINGW_PACKAGE_PREFIX}-SDL2
+pip3 install meson
+</code></pre>
+<p><code>${MINGW_PACKAGE_PREFIX}</code> expands either to <code>mingw-w64-i686</code> or <code>mingw-w64-x86_64</code>
+depending if the current shell is 32 or 64 bit.</p>
+
+					</article>
+				</div>
+					<div class="col-md-3">
+						<aside>
+
+
+
+
+						</aside>
+					</div>
+			</div>
+			<hr>
+			<footer>
+				<p style="text-align:left;">
+					<span data-localize="footer_copyright">Copyright</span>
+						&copy; 
+					<a data-localize="footer_team" href="/en/about/team">
+						Lite XL Team</a>
+				</p>
+			</footer>
+
+		</div>
+		<script src="/assets/js/scripts.min.js"></script><!--
+		<script type="text/javascript" src="/assets/js/jquery.localize.js"></script>
+		<script type="text/javascript" src="/assets/js/language.js"></script>
+-->
+		<script type="text/javascript" src="/assets/js/anchor.min.js"></script>
+    <script>
+      anchors.options.placement = 'left';
+      anchors.add();
+    </script>
+    <script defer type="text/javascript" src="/assets/js/ekko-lightbox.min.js"></script>
+    <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({});
+    });
+    </script>
+
+
+	</body>
+</html>

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en-US" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+
+		<title></title>
+
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Atom Feeds -->
+		<link href="/atom.xml" rel="alternate" title="News" type="application/atom+xml" />
+
+				<!-- Favicon Generator Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/ico/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/ico/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/ico/favicon-16x16.png">
+		<link rel="manifest" href="/assets/ico/site.webmanifest">
+		<link rel="mask-icon" href="/assets/ico/safari-pinned-tab.svg" color="#302e31">
+		<link rel="shortcut icon" href="/assets/ico/favicon.ico">
+		<meta name="msapplication-TileColor" content="#302e31">
+		<meta name="msapplication-config" content="/assets/ico/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+
+		<!-- Stylesheets -->
+		<link href="/assets/css/style.css" rel="stylesheet" media="screen">
+		    <link href="/assets/css/ekko-lightbox.css" rel="stylesheet">
+
+		<!-- Font Awesome Icons -->
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/solid.js"       integrity="sha384-Mf3ap7OwO+bjTkzM1RsrothLh38uKXvMWJ2TQPXGHqZcqfeI/cyCV+sfV0IDnBDq" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/brands.js"      integrity="sha384-b2GpqFrJizV0BUEdbrITdOA5HnxnlrErt7MlEERWd6NSJ32rHeibEvyyCuA13OAS" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/fontawesome.js" integrity="sha384-EYYaHDhIRoBhd/Ir/1fPnxg9rZLk/55lKtlNT5KrIcONoCS2kjf7ZWzMoCLLACeo" crossorigin="anonymous"></script>
+
+	</head>
+
+	<body>
+
+		<button
+			data-localize="site_scroll_top"
+			onclick="topFunction()"
+			id="scrollButton"
+			title="Go to top"
+		>
+			Top
+		</button>
+		<a href="#content" class="sr-only">Skip to content</a>
+		<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark header-dark">
+				<a
+					id="logo-link"
+					class="navbar-brand"
+					href="/lite-xl.github.io/"
+				>
+					<img
+						class="d-inline-block align-top"
+						src="/lite-xl.github.io/assets/img/logo.svg"
+						height="32" alt=""
+					> Lite XL</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-target="#navbarContent"
+					data-toggle="collapse"
+					aria-controls="navbarContent"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarContent">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					
+
+
+
+
+						<li class="nav-item">
+							<a
+								class="nav-link font-weight-bold"
+								data-localize="menu_search"
+								href="/search/"
+							>
+							<i class="fas fa-search fa-fw" aria-hidden="true"></i>
+								</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="row mt-4" id="content">
+				<div class="col-md-9">
+					<article>
+
+						<h1></h1>
+
+<h2>Overview</h2>
+<p>Lite XL is a lightweight text editor written mostly in Lua — it aims to provide
+something practical, pretty, <em>small</em> and fast, implemented as simply as
+possible; easy to modify and extend, or to use without doing either.</p>
+<p>Lite XL is based on the Lite editor and provide some enhancements
+while remaining generally compatible with it.</p>
+<h2>Getting Started</h2>
+<p>Lite XL works using a <em>project directory</em> — this is the directory where your
+project's code and other data resides.</p>
+<p>To open a specific project directory the directory name can be passed
+as a command-line argument <em>(<code>.</code> can be passed to use the current directory)</em>
+or the directory can be dragged onto either the executable or a running instance.</p>
+<p>Once started the project directory can be changed using the command
+<code>core:change-project-folder</code>. The command will close all the documents
+currently opened and switch to the new project directory.</p>
+<p>If you want to open a project directory in a new window the command
+<code>core:open-project-folder</code> will open a new editor window with the selected
+project directory.</p>
+<p>The main way of opening files in Lite XL is through the <code>core:find-file</code> command
+— this provides a fuzzy finder over all of the project's files and can be
+opened using the <span class="keycombo separated" title="Command Key-P"><kbd class="mod">⌘ Command</kbd>-<kbd class="key">p</kbd></span> shortcut by default.</p>
+<p>Commands can be run using keyboard shortcuts, or by using the <code>core:find-command</code>
+command bound to <span class="keycombo separated" title="Command Key-Command Key-P"><kbd class="mod">⌘ Command</kbd>-<kbd class="mod">⌘ Command</kbd>-<kbd class="key">p</kbd></span> by default. For example, pressing
+the above combination and typing <code>newdoc</code> then pressing <span class="keycombo separated" title="Return Key"><kbd class="key">⏎ Return</kbd></span>
+would open a new document. The current keyboard shortcut for a command
+can be seen to the right of the command name on the command finder, thus to find
+the shortcut for a command <span class="keycombo separated" title="Command Key-Command Key-P"><kbd class="mod">⌘ Command</kbd>-<kbd class="mod">⌘ Command</kbd>-<kbd class="key">p</kbd></span> can be pressed
+and the command name typed.</p>
+<h2>User Data Directories</h2>
+<p>Lite XL uses standard systems user directories; the user data can be found in
+<code>$HOME/.config/lite-xl</code> on Linux and macOS.
+On Windows, the variable <code>$USERPROFILE</code> will be used instead of
+<code>$HOME</code>.</p>
+<h2>User Module</h2>
+<p>Lite XL can be configured through use of the user module. The user module can be
+used for changing options in the config module, adding additional key bindings,
+loading custom color themes, modifying the style or changing any other part of
+the editor to your personal preference.</p>
+<p>The user module is loaded when the application starts,
+after the plugins have been loaded.</p>
+<p>The user module can be modified by running the <code>core:open-user-module</code> command
+or otherwise directly opening the <code>$HOME/.config/lite-xl/init.lua</code> file.</p>
+<p>On Windows, the variable <code>$USERPROFILE</code> will be used instead of
+<code>$HOME</code>.</p>
+<p><strong>tl;dr:</strong></p>
+<ul>
+<li>Windows: <code>C:\Users\(username)\.config\lite-xl\init.lua</code></li>
+<li>MacOS: <code>/Users/(usernmame)/.config/lite-xl/init.lua</code></li>
+<li>Linux: <code>/home/(username)/.config/lite-xl/init.lua</code></li>
+</ul>
+<p>These aren't the exact location, but it gives you an idea where to find.</p>
+<p>Please note that Lite XL differs from the standard Lite editor for the location
+of the user's module.</p>
+<h2>Project Module</h2>
+<p>The project module is an optional module which is loaded from the current
+project's directory when Lite XL is started. Project modules can be useful for
+things like adding custom commands for project-specific build systems, or
+loading project-specific plugins.</p>
+<p>The project module is loaded when the application starts,
+after both the plugins and user module have been loaded.</p>
+<p>The project module can be edited by running the <code>core:open-project-module</code>
+command — if the module does not exist for the current project when the
+command is run it will be created.</p>
+<h2>Add directories to a project</h2>
+<p>In addition to the project directories it is possible to add other directories
+using the command <code>core:add-directory</code>.
+Once added a directory it will be shown in the tree-view on the left side and
+the additional files will be reachable using the <span class="keycombo separated" title="Command Key-P"><kbd class="mod">⌘ Command</kbd>-<kbd class="key">p</kbd></span> command (find file).
+The additonal files will be also visible when searching across the project.</p>
+<p>The additional directories can be removed using the command <code>core:remove-directory</code>.</p>
+<p>When you will open again Lite XL on the same project folder the application will
+remember your workspace including the additonal project directories.</p>
+<p>Since version 1.15 Lite XL does not need a workspace plugin as it is now
+bundled with the editor.</p>
+<h2>Create new empty directory</h2>
+<p>Using the command <code>files:create-directory</code> or control-click in a directory in the
+tree-view to create a new empty subdirectory.</p>
+<h2>Commands</h2>
+<p>Commands are used both through the command finder (<span class="keycombo separated" title="Command Key-Command Key-P"><kbd class="mod">⌘ Command</kbd>-<kbd class="mod">⌘ Command</kbd>-<kbd class="key">p</kbd></span>) and
+by Lite XL's keyboard shortcut system. Commands consist of 3 components:</p>
+<ul>
+<li><strong>Name</strong> — The command name in the form of <code>namespace:action-name</code>, for
+example: <code>doc:select-all</code></li>
+<li><strong>Predicate</strong> — A function that returns true if the command can be ran, for
+example, for any document commands the predicate checks whether the active
+view is a document</li>
+<li><strong>Function</strong> — The function which performs the command itself</li>
+</ul>
+<p>Commands can be added using the <code>command.add</code> function provided by the
+<code>core.command</code> module:</p>
+<pre><code class="language-lua">local core = require &quot;core&quot;
+local command = require &quot;core.command&quot;
+
+command.add(&quot;core.docview&quot;, {
+  [&quot;doc:save&quot;] = function()
+    core.active_view.doc:save()
+    core.log(&quot;Saved '%s', core.active_view.doc.filename)
+  end
+})
+</code></pre>
+<p>Commands can be performed programatically (eg. from another command or by your
+user module) by calling the <code>command.perform</code> function after requiring the
+<code>command</code> module:</p>
+<pre><code class="language-lua">local command = require &quot;core.command&quot;
+command.perform &quot;core:quit&quot;
+</code></pre>
+<h2>Keymap</h2>
+<p>All keyboard shortcuts are handled by the <code>core.keymap</code> module.
+A key binding maps a &quot;stroke&quot; (eg. <span class="keycombo separated" title="Command Key-Q"><kbd class="mod">⌘ Command</kbd>-<kbd class="key">q</kbd></span>) to one or more commands
+(eg. <code>core:quit</code>). When the shortcut is pressed Lite XL will iterate each command
+assigned to that key and run the <em>predicate function</em> for that command — if the
+predicate passes it stops iterating and runs the command.</p>
+<p>An example of where this used is the default binding of the <span class="keycombo separated" title="Tab Key"><kbd class="key">Tab</kbd></span> key:</p>
+<pre><code class="language-lua">  [&quot;tab&quot;] = { &quot;command:complete&quot;, &quot;doc:indent&quot; },
+</code></pre>
+<p>When tab is pressed the <code>command:complete</code> command is attempted which will only
+succeed if the command-input at the bottom of the window is active. Otherwise
+the <code>doc:indent</code> command is attempted which will only succeed if we have a
+document as our active view.</p>
+<p>A new mapping can be added by your user module as follows:</p>
+<pre><code class="language-lua">local keymap = require &quot;core.keymap&quot;
+keymap.add { [&quot;ctrl+q&quot;] = &quot;core:quit&quot; }
+</code></pre>
+<p>A list of default mappings can be viewed <a href="en/documentation/keymap">here</a>.</p>
+<h2>Plugins</h2>
+<p>Plugins in Lite XL are normal lua modules and are treated as such — no
+complicated plugin manager is provided, and, once a plugin is loaded, it is never
+expected be to have to unload itself.</p>
+<p>To install a plugin simply drop it in the <code>plugins</code> directory in the user
+module directory.
+When Lite XL starts it will first load the plugins included in the data directory
+and will then loads the plugins located in the user module directory.</p>
+<p>To uninstall a plugin the plugin file can be deleted — any plugin
+(including those included with the default installation)
+can be deleted to remove its functionality.</p>
+<p>If you want to load a plugin only under a certain circumstance (for example,
+only on a given project) the plugin can be placed somewhere other than the
+<code>plugins</code> directory so that it is not automatically loaded. The plugin can
+then be loaded manually as needed by using the <code>require</code> function.</p>
+<p>Plugins can be downloaded from the <a href="https://github.com/rxi/lite-plugins">plugins repository</a>.</p>
+<h2>Restarting the editor</h2>
+<p>If you modifies the user configuration file or some of the Lua implementation files
+you may restart the editor using the command <code>core:restart</code>.
+All the application will be restarting by keeping the window that is already in use.</p>
+<h2>Color Themes</h2>
+<p>Colors themes in Lite XL are lua modules which overwrite the color fields of
+Lite XL's <code>core.style</code> module.
+Pre-defined color methods are located in the <code>colors</code> folder in the data directory.
+Additional color themes can be installed in the user's directory in a folder named
+<code>colors</code>.</p>
+<p>A color theme can be set by requiring it in your user module:</p>
+<pre><code class="language-lua">core.reload_module &quot;colors.winter&quot;
+</code></pre>
+<p>In the Lite editor the function <code>require</code> is used instead of <code>core.reload_module</code>.
+In Lite XL <code>core.reload_module</code> should be used to ensure that the color module
+is actually reloaded when saving the user's configuration file.</p>
+<p>Color themes can be downloaded from the <a href="https://github.com/rxi/lite-colors">color themes repository</a>.
+They are included with Lite XL release packages.</p>
+
+					</article>
+				</div>
+					<div class="col-md-3">
+						<aside>
+
+
+
+
+						</aside>
+					</div>
+			</div>
+			<hr>
+			<footer>
+				<p style="text-align:left;">
+					<span data-localize="footer_copyright">Copyright</span>
+						&copy; 
+					<a data-localize="footer_team" href="/en/about/team">
+						Lite XL Team</a>
+				</p>
+			</footer>
+
+		</div>
+		<script src="/assets/js/scripts.min.js"></script><!--
+		<script type="text/javascript" src="/assets/js/jquery.localize.js"></script>
+		<script type="text/javascript" src="/assets/js/language.js"></script>
+-->
+		<script type="text/javascript" src="/assets/js/anchor.min.js"></script>
+    <script>
+      anchors.options.placement = 'left';
+      anchors.add();
+    </script>
+    <script defer type="text/javascript" src="/assets/js/ekko-lightbox.min.js"></script>
+    <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({});
+    });
+    </script>
+
+
+	</body>
+</html>

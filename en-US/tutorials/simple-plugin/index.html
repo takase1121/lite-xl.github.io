@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en-US" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+
+		<title></title>
+
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Atom Feeds -->
+		<link href="/atom.xml" rel="alternate" title="News" type="application/atom+xml" />
+
+				<!-- Favicon Generator Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/ico/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/ico/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/ico/favicon-16x16.png">
+		<link rel="manifest" href="/assets/ico/site.webmanifest">
+		<link rel="mask-icon" href="/assets/ico/safari-pinned-tab.svg" color="#302e31">
+		<link rel="shortcut icon" href="/assets/ico/favicon.ico">
+		<meta name="msapplication-TileColor" content="#302e31">
+		<meta name="msapplication-config" content="/assets/ico/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+
+		<!-- Stylesheets -->
+		<link href="/assets/css/style.css" rel="stylesheet" media="screen">
+		    <link href="/assets/css/ekko-lightbox.css" rel="stylesheet">
+
+		<!-- Font Awesome Icons -->
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/solid.js"       integrity="sha384-Mf3ap7OwO+bjTkzM1RsrothLh38uKXvMWJ2TQPXGHqZcqfeI/cyCV+sfV0IDnBDq" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/brands.js"      integrity="sha384-b2GpqFrJizV0BUEdbrITdOA5HnxnlrErt7MlEERWd6NSJ32rHeibEvyyCuA13OAS" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/fontawesome.js" integrity="sha384-EYYaHDhIRoBhd/Ir/1fPnxg9rZLk/55lKtlNT5KrIcONoCS2kjf7ZWzMoCLLACeo" crossorigin="anonymous"></script>
+
+	</head>
+
+	<body>
+
+		<button
+			data-localize="site_scroll_top"
+			onclick="topFunction()"
+			id="scrollButton"
+			title="Go to top"
+		>
+			Top
+		</button>
+		<a href="#content" class="sr-only">Skip to content</a>
+		<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark header-dark">
+				<a
+					id="logo-link"
+					class="navbar-brand"
+					href="/lite-xl.github.io/"
+				>
+					<img
+						class="d-inline-block align-top"
+						src="/lite-xl.github.io/assets/img/logo.svg"
+						height="32" alt=""
+					> Lite XL</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-target="#navbarContent"
+					data-toggle="collapse"
+					aria-controls="navbarContent"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarContent">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					
+
+
+
+
+						<li class="nav-item">
+							<a
+								class="nav-link font-weight-bold"
+								data-localize="menu_search"
+								href="/search/"
+							>
+							<i class="fas fa-search fa-fw" aria-hidden="true"></i>
+								</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="row mt-4" id="content">
+				<div class="col-md-9">
+					<article>
+
+						<h1></h1>
+
+<h3>A good starting place to learn how to develop plugins for Lite XL</h3>
+<h4>What is Simple?</h4>
+<p>Simple is a very basic plugin written with the intention of introducing developers
+who are new to Lite XL to the process of writing plugins for the editor.</p>
+<h4>What does the plugin do?</h4>
+<p>The plugin displays a message (that is taken as input from the user) at the top
+right corner of the editor window. It also allows the user to toggle
+the visibility of the message.</p>
+<h4>Format of the tutorial</h4>
+<p>The code contains comments detailing what most (if not all)
+of the code in the file does.</p>
+<h4>The code :</h4>
+<pre><code class="language-lua">-- mod-version:1 -- lite-xl 1.16
+
+-----------------------------------------------------------------------
+-- NAME       : Simple
+-- DESCRIPTION: A simple guide on how to make your first Lite XL plugin
+-- AUTHOR     : Ashwin Godbole (aelobdog)
+-- GOALS      : To render some text inside the editor
+-----------------------------------------------------------------------
+-- Disclaimer :
+-- I am not a lua developer, and my knowledge about writing plugins for
+-- Lite XL is very limited. This file serves the purpose of helping the
+-- reader get started with plugin development for Lite XL, and therefore
+-- demonstrates only some very basic features. For more complex plugin
+-- development, be sure to check out the source code of some other
+-- plugins after going through this file.
+-----------------------------------------------------------------------
+-- Before we start writing any code for the plugin, we must import the
+-- required modules from the &quot;core&quot; package.
+
+-- the &quot;core&quot; module
+local core = require &quot;core&quot;
+
+-- the &quot;command&quot; module will help us register commands for our plugin.
+local command = require &quot;core.command&quot;
+
+-- the &quot;style&quot; module will allow us to use default styling options
+local style = require &quot;core.style&quot;
+
+-- the &quot;config&quot; module will be used to store certain things like colors
+-- and functions
+local config = require &quot;core.config&quot;
+
+-- the &quot;keymap&quot; module will allow us to set keybindings for our commands
+local keymap = require &quot;core.keymap&quot;
+-----------------------------------------------------------------------
+-- colors are just three comma separated values (RGB) (range 0 - 255)
+-- put inside of '{ }'. We will add our color to the config module.
+
+config.text_color = {200, 140, 220}
+-----------------------------------------------------------------------
+-- Let's create a function to calculate the coordinates of our text.
+-- While we're at it, let's add out function to the `config` module.
+-- We'll take the message we want to display as the argument to the
+-- function to determine the x and y coordinates of the text.
+
+function config.get_text_coordinates(message)
+   -- For this plugin, we want to display the text on the top right
+   -- corner of the screen. For this, we need to know the editor's width
+   -- and height.
+
+   -- The current font's size can be obtained from the &quot;style&quot; module.
+   -- The editor's dimensions can be obtained by
+   --   1. WIDTH  : core.root_view.size.x
+   --   2. HEIGHT : core.root_view.size.y
+
+   local message_width = style.code_font:get_width(message..&quot; &quot;)
+   local font_height = style.code_font:get_size()
+   local x = core.root_view.size.x - message_width
+   local y = font_height / 2
+
+   return x, y
+end
+-----------------------------------------------------------------------
+-- Let's now get to actually drawing the text inside the editor.
+-- The first thing we'll do is override the `parent` draw function from
+-- `core.root_view`. We'll call it `parent_draw` for the time being.
+
+local parent_draw = core.root_view.draw
+
+-- Now let's overload the original definition of `draw` in the
+-- `core.root_view` module by redefining the function in the core module.
+
+core.root_view.draw = function(...)
+   -- We call the parent's function to keep the editor functional...
+   -- obviously we must still draw all the other stuff !
+   -- So we call the `parent_draw` function before doing anything else.
+   parent_draw(...)
+
+   -- we'll add an option to toggle the message on and off. let's use a
+   -- boolean variable to keep track of whether we want to display the
+   -- message or not.
+   if config.show_my_message then
+      -- We'll be getting the message to display as input from the user
+      -- later. We'll store that user input in `config.hw_message`.
+      -- (NOTE: this variable does not come in-built in lite-xl;
+      --        it is a variable that we will create later.)
+
+      -- let's store the value of config.hw_message in a local variable
+      -- `message` in case config.hw_message we set the message to
+      -- &quot;message not set yet!&quot;
+      local message
+
+      if config.hw_message then
+	 message = config.hw_message
+      else
+	 message = &quot;Message not set yet !&quot;
+      end
+
+      -- let's get the coordinates for our text
+      local x, y = config.get_text_coordinates(message)
+
+      -- let's finally draw the text to the window !
+      -- the draw_text function from `renderer` is an important function
+      -- as it is used to display any and all text inside of the editor
+      -- window
+      renderer.draw_text(style.code_font, message, x, y, config.text_color)
+   end
+end
+-----------------------------------------------------------------------
+-- Let's allow the user to turn the message on and off
+-- we'll write a function to flip our &quot;show&quot; boolean variable.
+
+local function toggle_helloworld()
+   config.show_my_message = not config.show_my_message
+end
+-----------------------------------------------------------------------
+-- Finally, let's add the toggle function to the command list so that
+-- we can call it from the C-S-p command panel. Let's add one command
+-- to toggle the visibility of the message on and off and one to get
+-- the user's message and then display it.
+
+command.add(nil, {
+   -- Toggle the visibility of the message
+   [&quot;simple:toggle&quot;] = toggle_helloworld,
+
+   -- Set and show the message
+   -- This is the way to get user input through the command bar.
+   -- `core.command_view:enter` takes 2 arguments:
+   --    * the prompt to display before taking input
+   --    * a function that takes the &quot;input&quot; as its argument
+   -- (NOTE: here the variable we are reading input into is `text`)
+   [&quot;simple:setshow&quot;] = function()
+      core.command_view:enter(&quot;Test to display&quot;, function(text)
+         config.hw_message = text
+         config.show_my_message = true
+      end)
+   end
+})
+-----------------------------------------------------------------------
+-- Just for fun, let's assign our commands their own keybindings.
+-- Here, we assign the keybinding the same string(its name) as the one
+-- that we set while creating the command
+keymap.add {
+   [&quot;alt+s&quot;] = &quot;simple:setshow&quot;,
+   [&quot;alt+t&quot;] = &quot;simple:toggle&quot;,
+}
+</code></pre>
+
+					</article>
+				</div>
+					<div class="col-md-3">
+						<aside>
+
+
+
+
+						</aside>
+					</div>
+			</div>
+			<hr>
+			<footer>
+				<p style="text-align:left;">
+					<span data-localize="footer_copyright">Copyright</span>
+						&copy; 
+					<a data-localize="footer_team" href="/en/about/team">
+						Lite XL Team</a>
+				</p>
+			</footer>
+
+		</div>
+		<script src="/assets/js/scripts.min.js"></script><!--
+		<script type="text/javascript" src="/assets/js/jquery.localize.js"></script>
+		<script type="text/javascript" src="/assets/js/language.js"></script>
+-->
+		<script type="text/javascript" src="/assets/js/anchor.min.js"></script>
+    <script>
+      anchors.options.placement = 'left';
+      anchors.add();
+    </script>
+    <script defer type="text/javascript" src="/assets/js/ekko-lightbox.min.js"></script>
+    <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({});
+    });
+    </script>
+
+
+	</body>
+</html>
