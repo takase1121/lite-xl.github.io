@@ -19,7 +19,7 @@ jobs:
       - name: Build website
         run: yarn --no-bin-links --production=false && yarn dist
       - name: Upload to GitHub pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+          branch: gh-pages
+          folder: _site
