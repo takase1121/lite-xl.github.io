@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>News</title>
+		<title>Regex API</title>
 
 		<meta name="author" content="redtide">
 		<meta name="web-author" content="redtide">
@@ -326,35 +326,65 @@
 				<div class="col-md-9">
 					<article>
 
-<h2><a href="/news/2021/05/29/documentation-website/">Documentation Website</a></h2>
-<p>
+						<h1>Regex API</h1>
 
-	<span data-localize="news_by">by </span>
-	redtide
+<p>This API provides PCRE regular expressions for those who needs more power in matching text.
+This API written in C and Lua.</p>
 
-	<span data-localize="news_at">at </span>
-	<time datetime="2021-05-29T09:15:47+00:00">
-		May 29, 2021 09:15 AM
-	</time>
-</p>
+<h4 id="creating-a-regex">Creating a regex</h4>
+<p>Use <code class="language-plaintext highlighter-rouge">regex.compile(pattern, options)</code> to compile a regex.</p>
 
-<p>Lite XL website.</p>
-
+<p>Arguments:</p>
 <ul>
-  <li>Built on <a href="http://jekyllrb.com/">Jekyll</a>.</li>
-  <li>Most content is authored in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format.</li>
-  <li>Utilizes <a href="http://getbootstrap.com/">Bootstrap</a> for easy skinning and responsive design,
-making the website available to mobile devices.</li>
-  <li>Utilizes <a href="http://fontawesome.io/">FontAwesome</a> and <a href="https://realfavicongenerator.net/">Favicon Generator</a> for content and website icons.</li>
+  <li><code class="language-plaintext highlighter-rouge">pattern</code>: The regex pattern</li>
+  <li><code class="language-plaintext highlighter-rouge">options</code>: regex modifiers as a string, eg <code class="language-plaintext highlighter-rouge">"im"</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">"i"</code>: Case-insensitive search</li>
+      <li><code class="language-plaintext highlighter-rouge">"m"</code>: Multiline search</li>
+      <li><code class="language-plaintext highlighter-rouge">"s"</code>: Match all characters with dot (<code class="language-plaintext highlighter-rouge">.</code>), <strong>including newlines.</strong></li>
+    </ul>
+  </li>
 </ul>
 
-<p class="text-center" style="margin-top: 2em;">
-	<a class="btn btn-lg btn-default" href="/lite-xl.github.io/news/archive/">
-		<i class="fa fa-calendar fa-fw"></i>
-		<span data-localize="news_archive"> News Archive</span>
-	</a>
-</p>
+<h4 id="matching">Matching</h4>
+<h5 id="low-level-functions">Low level functions</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">regex:cmatch(str, offset, options)</code> low-level matching function
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">str</code>: The string to match against</li>
+      <li><code class="language-plaintext highlighter-rouge">offset</code>: Where to start matching</li>
+      <li><code class="language-plaintext highlighter-rouge">options</code>: A bit field of options
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">regex.ANCHORED</code>: Only match from the start of the string</li>
+          <li><code class="language-plaintext highlighter-rouge">regex.ENDANCHORED</code>: Only match from the end of the string</li>
+          <li><code class="language-plaintext highlighter-rouge">regex.NOTBOL</code>: String is not beginning of line</li>
+          <li><code class="language-plaintext highlighter-rouge">regex.NOTEOL</code>: String is not the end of line</li>
+          <li><code class="language-plaintext highlighter-rouge">regex.NOTEMPTY</code>: Do not match an empty string</li>
+          <li><code class="language-plaintext highlighter-rouge">regex.NOTEMPTY_ATSTART</code>: Do not match empty string at the start</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
+<p><strong>Note: <code class="language-plaintext highlighter-rouge">regex:cmatch()</code> returns wrong indexes (currently at version 2.0.2).
+  The end index returned by <code class="language-plaintext highlighter-rouge">regex:cmatch()</code> is always off by 1 (-1 to get the actual end index).</strong></p>
+
+<h5 id="high-level-functions">High level functions</h5>
+<p>All the functions below can be in 2 forms:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">regex:fn(...)</code> where <code class="language-plaintext highlighter-rouge">regex</code> is the compiled regex instance</li>
+  <li><code class="language-plaintext highlighter-rouge">regex.fn(pattern, ...)</code> where <code class="language-plaintext highlighter-rouge">pattern</code> is a pattern string to be compiled and used directly.</li>
+</ul>
+
+<p>We will only document the first form.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">regex:match(str, offset, options)</code> high level matching function. This function accepts
+the same arguments as <code class="language-plaintext highlighter-rouge">regex:cmatch()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">regex:gsub(str, replacement)</code> replaces matches in <code class="language-plaintext highlighter-rouge">str</code> with <code class="language-plaintext highlighter-rouge">replacement</code>.
+Capture groups are identified with <code class="language-plaintext highlighter-rouge">\0</code> to <code class="language-plaintext highlighter-rouge">\9</code>, this might change in the future.</li>
+</ul>
 
 					</article>
 				</div>

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>News</title>
+		<title>Features</title>
 
 		<meta name="author" content="redtide">
 		<meta name="web-author" content="redtide">
@@ -326,35 +326,58 @@
 				<div class="col-md-9">
 					<article>
 
-<h2><a href="/news/2021/05/29/documentation-website/">Documentation Website</a></h2>
-<p>
+						<h1>Features</h1>
 
-	<span data-localize="news_by">by </span>
-	redtide
+<p>Currently, Lite XL offers a lot of features out of the box.</p>
 
-	<span data-localize="news_at">at </span>
-	<time datetime="2021-05-29T09:15:47+00:00">
-		May 29, 2021 09:15 AM
-	</time>
-</p>
+<h4 id="cross-platform">Cross-Platform</h4>
+<p>We currently support Windows, Linux and MacOS (with Retina display support).</p>
 
-<p>Lite XL website.</p>
+<h4 id="lightweight">Lightweight</h4>
+<p>We are currently around 3MB in size and takes about 10MB in RAM (can be lower). No Electron / WebView involved. The whole thing is just Lua running on a rendering engine.</p>
 
-<ul>
-  <li>Built on <a href="http://jekyllrb.com/">Jekyll</a>.</li>
-  <li>Most content is authored in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format.</li>
-  <li>Utilizes <a href="http://getbootstrap.com/">Bootstrap</a> for easy skinning and responsive design,
-making the website available to mobile devices.</li>
-  <li>Utilizes <a href="http://fontawesome.io/">FontAwesome</a> and <a href="https://realfavicongenerator.net/">Favicon Generator</a> for content and website icons.</li>
-</ul>
+<h4 id="extensible">Extensible</h4>
+<p>While the editor is minimal by default, it is very extensible using Lua. In fact, a lot of features are provided by plugins. For example, <a href="https://github.com/jgmdev/lite-xl-lsp">VSC-like intellisense</a></p>
 
-<p class="text-center" style="margin-top: 2em;">
-	<a class="btn btn-lg btn-default" href="/lite-xl.github.io/news/archive/">
-		<i class="fa fa-calendar fa-fw"></i>
-		<span data-localize="news_archive"> News Archive</span>
-	</a>
-</p>
+<h4 id="better-font-rendering">Better font rendering</h4>
+<p>The editor looks good in screen of any sizes. Some other options are also configurable, such as hinting and antialiasing.</p>
 
+<h4 id="multi-cursor-editing">Multi-cursor editing</h4>
+<p>You can now place multiple cursors by <span class="keycombo separated" title="Control-left click"><kbd class="mod">Control</kbd>-<kbd class="key symbol"><i class="fas fa-mouse-pointer"></i></kbd></span> on lines or <span class="keycombo separated" title="Control-Up Arrow Key"><kbd class="mod">Control</kbd>-<kbd class="key symbol">&#8593;</kbd></span><br /><span class="keycombo separated" title="Control-Down Arrow Key"><kbd class="mod">Control</kbd>-<kbd class="key symbol">&#8595;</kbd></span>.</p>
+
+<hr />
+
+<p>Here are some features that aren’t implemented with the rationales behind it.
+Some of these may be implemented via plugins.
+We encourage you to give it a shot.</p>
+
+<h4 id="hardware-accelerated-rendering">Hardware accelerated rendering</h4>
+<p><strong>tl;dr -  franko stated that he isn’t considering using OpenGL due to the skills and work involved.</strong></p>
+
+<p>Hardware acceleration was brought up in this <a href="https://github.com/lite-xl/lite-xl/discussions/450">discussion</a>.
+Takase had made 2 attempts at this - at first using <a href="https://github.com/inniyah/nanovg">NanoVG</a> and then forcing SDL to use GPU rendering.
+In both attempts, the performance gains at best is negligible, while at worst its completely unusable.
+Right now, we decided to focus on optimizing the software renderer and various part of Lua code.</p>
+
+<h4 id="system-fonts">System fonts</h4>
+<p>This is painful because various systems has their own mechanism of managing fonts.
+For now, users can use the <a href="https://github.com/lite-xl/lite-plugins/blob/master/plugins/fontconfig.lua">fontconfig plugin</a>.
+Fontconfig is widely available on Linux and <a href="https://formulae.brew.sh/formula/fontconfig">installable on MacOS</a>, while <a href="https://github.com/takase1121/mingw-w64-fontconfig">Windows builds</a> are available.
+In the future, we might consider adding API to read font metadata, allowing us to write a fontconfig alternative in Lua. (no promises here)</p>
+
+<h4 id="opening-unc-paths-on-windows-network-drives-accessing-wsl2-files-from-windows">Opening UNC paths on Windows (network drives, accessing WSL2 files from Windows)</h4>
+<p>Our path handling code can only handle POSIX and Windows paths.
+We also aren’t sure how Lite XL will behave in these scenarios.</p>
+
+<h4 id="inter-window-communication-dragging-tabs-between-windows-and-other-magic">Inter-window communication (dragging tabs between windows and other magic)</h4>
+<p>This is by far the hardest to achieve.
+Lite XL has no intention to link to any widget toolkits (Qt and GTK) which are required for these features.
+An alternative approach is to create our own IPC mechanism, but that’s <a href="https://en.wikipedia.org/wiki/D-Bus">reinventing</a> <a href="https://en.wikipedia.org/wiki/Inter-Client_Communication_Conventions_Manual">the</a> <a href="https://github.com/swaywm/wlroots">wheel</a>.</p>
+
+<h4 id="integrated-terminal">Integrated terminal</h4>
+<p>A terminal is complex to implement.
+There are projects that <em>can</em> be ported to Lua, such as <a href="https://xtermjs.org/">xterm.js</a>.
+If someone is interested, they can do so.</p>
 
 					</article>
 				</div>

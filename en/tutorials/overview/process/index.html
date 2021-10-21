@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>News</title>
+		<title>Process API</title>
 
 		<meta name="author" content="redtide">
 		<meta name="web-author" content="redtide">
@@ -326,34 +326,104 @@
 				<div class="col-md-9">
 					<article>
 
-<h2><a href="/news/2021/05/29/documentation-website/">Documentation Website</a></h2>
-<p>
+						<h1>Process API</h1>
 
-	<span data-localize="news_by">by </span>
-	redtide
+<p>Lite XL provides a process API to launch external applications. This API is meant to replace
+lua’s <code class="language-plaintext highlighter-rouge">io.popen</code> and lite’s <a href="https://github.com/rxi/console/blob/fb3d414d085d4110364314d6cd8380dc1d386249/init.lua#L100">pipe-to-a-file</a> approach.</p>
 
-	<span data-localize="news_at">at </span>
-	<time datetime="2021-05-29T09:15:47+00:00">
-		May 29, 2021 09:15 AM
-	</time>
-</p>
-
-<p>Lite XL website.</p>
-
+<p>Advantages of this API includes:</p>
 <ul>
-  <li>Built on <a href="http://jekyllrb.com/">Jekyll</a>.</li>
-  <li>Most content is authored in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format.</li>
-  <li>Utilizes <a href="http://getbootstrap.com/">Bootstrap</a> for easy skinning and responsive design,
-making the website available to mobile devices.</li>
-  <li>Utilizes <a href="http://fontawesome.io/">FontAwesome</a> and <a href="https://realfavicongenerator.net/">Favicon Generator</a> for content and website icons.</li>
+  <li>Proper argument escaping (arguments are supplied via a table)</li>
+  <li>Nonblocking IO</li>
+  <li>Able to detach processes from Lite XL <a href="https://github.com/lite-xl/lite-xl/pull/535">(in progress)</a></li>
+  <li>Does not create temporary files</li>
+  <li>Mostly cross-platform (does not require special code for each shell)</li>
 </ul>
 
-<p class="text-center" style="margin-top: 2em;">
-	<a class="btn btn-lg btn-default" href="/lite-xl.github.io/news/archive/">
-		<i class="fa fa-calendar fa-fw"></i>
-		<span data-localize="news_archive"> News Archive</span>
-	</a>
-</p>
+<h3 id="using-the-process-api">Using the Process API</h3>
+
+<h4 id="error-handling">Error handling</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">process.start()</code> may throw errors if it cannot run the program.</li>
+  <li><code class="language-plaintext highlighter-rouge">process.read*</code> and <code class="language-plaintext highlighter-rouge">process.write</code> functions may throw errors if
+    <ul>
+      <li>the process ended</li>
+      <li>the process closed the stream</li>
+      <li>you closed the stream</li>
+    </ul>
+  </li>
+  <li>there might be other errors to look forward to too</li>
+</ul>
+
+<h4 id="starting-a-process">Starting a process</h4>
+<p>To start a process, use <code class="language-plaintext highlighter-rouge">process.start(args, options)</code>.</p>
+
+<p>Here are some of the more useful arguments.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">args</code>: The executable and any arguments, eg: <code class="language-plaintext highlighter-rouge">{ "sh", "-c", "echo hello world" }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">options</code>: Options for <code class="language-plaintext highlighter-rouge">process.start()</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">env</code>: A key-value table containing the env. <strong>Note that if this is provided,
+        environment variables will not be inherited.</strong></li>
+      <li><code class="language-plaintext highlighter-rouge">stdin</code>: Specify where to redirect stdin</li>
+      <li><code class="language-plaintext highlighter-rouge">stdout</code>: Specify where to redirect stdout</li>
+      <li><code class="language-plaintext highlighter-rouge">stderr</code>: Specify where to redirect stderr</li>
+    </ul>
+  </li>
+</ul>
+
+<p>for <code class="language-plaintext highlighter-rouge">options.std{in,out,err}</code>, valid values are:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">process.REDIRECT_PIPE</code> (Make it available to subprocess API for reading / writing)</li>
+  <li><code class="language-plaintext highlighter-rouge">process.REDIRECT_DISCARD</code> (Discard the output. Use this to prevent buffering)</li>
+  <li><code class="language-plaintext highlighter-rouge">process.REDIRECT_STDOUT</code> (<code class="language-plaintext highlighter-rouge">stderr</code> only, for redirecting <code class="language-plaintext highlighter-rouge">stderr</code> to <code class="language-plaintext highlighter-rouge">stdout</code>)</li>
+</ul>
+
+<h4 id="reading-from-process">Reading from process</h4>
+<p>To read from <code class="language-plaintext highlighter-rouge">stdout</code> or <code class="language-plaintext highlighter-rouge">stderr</code> of a process, use <code class="language-plaintext highlighter-rouge">process:read_stdout()</code> and
+<code class="language-plaintext highlighter-rouge">process:read_stderr()</code> respectively.</p>
+
+<p>You can specify a numeric argument to them, which will change the size of internal buffer used 
+to read the output.</p>
+
+<p>Alternatively, you could use <code class="language-plaintext highlighter-rouge">process:read()</code> with <code class="language-plaintext highlighter-rouge">process.STREAM_STDERR</code> and <code class="language-plaintext highlighter-rouge">process.STREAM_STDOUT</code>.</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">process</span><span class="p">.</span><span class="n">start</span> <span class="p">{</span> <span class="s2">"sh"</span><span class="p">,</span> <span class="s2">"-c"</span><span class="p">,</span> <span class="s2">"echo hello world!"</span> <span class="p">}</span>
+
+<span class="c1">-- do not use `while proc:running()` if you care about output.</span>
+<span class="c1">-- The process could die and leave data in the buffer</span>
+<span class="c1">-- You should just read until `proc:read_stdout()` returns nil</span>
+<span class="k">while</span> <span class="kc">true</span> <span class="k">do</span>
+  <span class="kd">local</span> <span class="n">rdbuf</span> <span class="o">=</span> <span class="n">proc</span><span class="p">:</span><span class="n">read_stdout</span><span class="p">()</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">rdbuf</span> <span class="k">then</span> <span class="k">break</span> <span class="k">end</span>
+  <span class="c1">-- yay, output</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h4 id="writing-to-process">Writing to process</h4>
+<p>You can use <code class="language-plaintext highlighter-rouge">process:write(data)</code> to write a string to <code class="language-plaintext highlighter-rouge">stdin</code>.</p>
+
+<h4 id="checking-completion">Checking completion</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">process:running()</code> returns a boolean to indicate whether if the process is running.</li>
+  <li><code class="language-plaintext highlighter-rouge">process:wait(time)</code> also does the same thing, but you specify how long it should wait (or 0 to return immediately).</li>
+</ul>
+
+<h4 id="terminating-process">Terminating process</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">process:terminate()</code> sends SIGTERM (or Windows equivalent) to the process.</li>
+  <li><code class="language-plaintext highlighter-rouge">process:kill()</code> sends SIGKILL (or Windows equivalent) to the progress.
+** Use this only if <code class="language-plaintext highlighter-rouge">process:terminate()</code> cannot kill the process, <a href="http://turnoff.us/geek/dont-sigkill/">as it can cause issues</a>.</li>
+</ul>
+
+<h4 id="misc">Misc</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">process:pid()</code> returns the PID of the process.
+<strong>There are no guarantees for this PID to be correct if the process terminated early.</strong></li>
+  <li><code class="language-plaintext highlighter-rouge">process:returncode()</code> returns the exit code of the process, if any</li>
+  <li><code class="language-plaintext highlighter-rouge">process:close_stream()</code> closes <code class="language-plaintext highlighter-rouge">stdin</code>, <code class="language-plaintext highlighter-rouge">stdout</code> or <code class="language-plaintext highlighter-rouge">stderr</code> stream of the process.</li>
+</ul>
 
 
 					</article>
