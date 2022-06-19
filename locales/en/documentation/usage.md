@@ -60,6 +60,7 @@ On Windows, the variable `$USERPROFILE` will be used instead of
 `$HOME`.
 
 **tl;dr:**
+
 - Windows: `C:\Users\(username)\.config\lite-xl\init.lua`
 - MacOS: `/Users/(usernmame)/.config/lite-xl/init.lua`
 - Linux: `/home/(username)/.config/lite-xl/init.lua`
@@ -167,6 +168,28 @@ keymap.add { ["ctrl+q"] = "core:quit" }
 ```
 
 A list of default mappings can be viewed [here][1].
+
+### Global variables
+
+There are a few global variables set by the editor.
+These variables are available everywhere and shouldn't be overwritten.
+
+- `ARGS`: command-line arguments. `argv[1]` is the program name, `argv[2]` is the 1st parameter, ...
+- `PLATFORM`: Output from `SDL_GetPlatform()`. Can be `Windows`, `Mac OS X`, `Linux`, `iOS` and `Android`.
+- `SCALE`: Font scale. Usually 1, but can be higher on HiDPI systems.
+- `EXEFILE`: An absolute path to the executable.
+- `EXEDIR`: The executable directory. **DO NOT WRITE TO THIS DIRECTORY.**
+- `VERSION`: lite-xl version.
+- `MOD_VERSION`: mod-version used in plugins. This is usually incremented when there are API changes.
+- `PATHSEP`: Path seperator. `\` (Windows) or `/` (Other OSes)
+- `DATADIR`: The data directory, where the Lua part of lite-xl resides. **DO NOT WRITE TO THIS DIRECTORY.**
+- `USERDIR`: User configuration directory.
+
+> `USERDIR` should be used instead of `DATADIR` when configuring the editor
+> because `DATADIR` might not be writable.
+> (for example, if the editor is installed in `/usr`, `DATADIR` will be `/usr/share/lite-xl`!)
+> `USERDIR` on the other hand should always be writable for the user, and allows multiple users to customize
+> their own editor.
 
 ## Plugins
 
