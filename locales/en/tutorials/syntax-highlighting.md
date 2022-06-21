@@ -211,7 +211,7 @@ The fix is to add a `normal` token for the whitespace between the two tokens:
 { pattern = "[%a_][%w_]+()%s+()[%a_][%w_]+", type = { "keyword2", "normal", "symbol" } }
 ```
 
-#### Case 2: Patterns & `symbols` tokens
+##### Case 2: Patterns & `symbols` tokens
 
 One might assume that Lite XL magically matches text against the `symbols` table. This is not the case.
 
