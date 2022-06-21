@@ -186,6 +186,7 @@ Let's have an example:
 ```
 
 Let's explain the pattern a bit (omitting the empty parentheses):
+
 ```
 [%a_] = any alphabet and underscore
 [%w_] = any alphabet, numbers and underscore

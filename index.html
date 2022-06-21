@@ -731,19 +731,17 @@ The token type in this section <strong>always take precedence</strong> over toke
 <p>Let&#39;s have an example:</p>
 <pre><span class="p">{</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s2">"[%a_][%w_]+%s+()[%a_][%w_]+"</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"keyword2"</span><span class="p">,</span> <span class="s2">"symbol"</span> <span class="p">}</span> <span class="p">}</span>
 </pre>
-<p>Let&#39;s explain the pattern a bit (omitting the empty parentheses):
-```
-[%a<em>] = any alphabet and underscore
-[%w</em>] = any alphabet, numbers and underscore
-%s = any whitespace character</p>
+<p>Let&#39;s explain the pattern a bit (omitting the empty parentheses):</p>
+<pre><span class="o">[</span>%a_] <span class="o">=</span> any alphabet and underscore
+<span class="o">[</span>%w_] <span class="o">=</span> any alphabet, numbers and underscore
+%s <span class="o">=</span> any whitespace character
 
-<p>WORD =
-  [%a<em>] followed by (1 or more [%w</em>])</p>
+WORD <span class="o">=</span>
+  <span class="o">[</span>%a_] followed by <span class="o">(</span>1 or more <span class="o">[</span>%w_]<span class="o">)</span>
 
-<p>pattern =
-  WORD followed by (one or more %s) followed by WORD
-```</p>
-
+pattern <span class="o">=</span>
+  WORD followed by <span class="o">(</span>one or more %s<span class="o">)</span> followed by WORD
+</pre>
 <p>Afterwards, you add an entry <code>[&quot;my&quot;] = &quot;literal&quot;</code> in the <code>symbols</code> table.
 You test the syntax with <code>my function</code> found that <code>&quot;my&quot;</code> isn&#39;t highlighted as <code>literal</code>. Why did that happen?</p>
 
