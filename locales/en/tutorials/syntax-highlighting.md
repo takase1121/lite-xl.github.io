@@ -417,8 +417,11 @@ Please use it in moderation.
 By default, Lite XL prepends a pattern `{ pattern = "%s+", type = "normal" }` to the syntax.
 This improves the performance drastically on lines that starts with whitespaces (eg. heavily indented lines)
 by matching the whitespace before other patterns in order to prevent Lite XL from iterating the entire syntax.
-However, there may be syntaxes that require matching spaces (eg. Markdown with indented blocks) so this can be disabled by
-setting `space_handling` to `false.`
+However, there may be syntaxes that require matching spaces (eg. Markdown with indented blocks)
+so this can be disabled by setting `space_handling` to `false.`
+
+> To keep the space handling optimization or to support older versions of Lite XL,
+> `{ pattern = "%s+", type = "normal" }` can be added after patterns that require space.
 
 ### Simple patterns with multiple tokens (v1.16.10)
 
