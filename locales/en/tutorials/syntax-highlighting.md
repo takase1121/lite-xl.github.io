@@ -237,6 +237,7 @@ None of the characters are matched by `[%a_][%w_]*`!
 **If you want to use it, you need to ensure that it can matched by one of the patterns.**
 
 The correct patterns are:
+
 ```lua
 { pattern = "[%a_][%w%-_]*", "symbol" },
 { pattern = "%.%.[%a_][%w_]*", "symbol" },
