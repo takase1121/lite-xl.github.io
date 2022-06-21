@@ -964,8 +964,13 @@ Please use it in moderation.</p>
 <p>By default, Lite XL prepends a pattern <code>{ pattern = &quot;%s+&quot;, type = &quot;normal&quot; }</code> to the syntax.
 This improves the performance drastically on lines that starts with whitespaces (eg. heavily indented lines)
 by matching the whitespace before other patterns in order to prevent Lite XL from iterating the entire syntax.
-However, there may be syntaxes that require matching spaces (eg. Markdown with indented blocks) so this can be disabled by
-setting <code>space_handling</code> to <code>false.</code></p>
+However, there may be syntaxes that require matching spaces (eg. Markdown with indented blocks)
+so this can be disabled by setting <code>space_handling</code> to <code>false.</code></p>
+
+<blockquote>
+<p>To keep the space handling optimization or to support older versions of Lite XL,
+<code>{ pattern = &quot;%s+&quot;, type = &quot;normal&quot; }</code> can be added after patterns that require space.</p>
+</blockquote>
 
 <h3 id="simple-patterns-with-multiple-tokens-v1-16-10">Simple patterns with multiple tokens (v1.16.10)</h3>
 
