@@ -156,7 +156,10 @@ If you need to use PCRE Regular Expressions, instead of Lua Patterns, you can us
 
 ### Symbols
 
+> This is **not related to the `symbol` token type**.
+
 The symbols section allows you to assign token types to particular keywords or strings - usually reserved words in the language you are highlighting.
+The token type in this section **always take precedence** over token types declared in patterns.
 
 For example this highlights `Host` using the `function` token type, `HostName` as a `keyword` and `yes`, `no`, `any` & `ask` as a `literal`:
 
@@ -168,6 +171,75 @@ For example this highlights `Host` using the `function` token type, `HostName` a
 ["no"]       = "literal",
 ["any"]      = "literal",
 ["ask"]      = "literal",
+```
+
+#### Tips: double check your patterns!
+
+There are a few common mistakes that can be made when using the `symbols` table in conjunction with patterns.
+
+##### Case 1: Spaces between two `symbols` tokens
+
+Let's have an example:
+
+```lua
+{ pattern = "[%a_][%w_]+%s+()[%a_][%w_]+", type = { "keyword2", "symbol" } }
+```
+
+Let's explain the pattern a bit (omitting the empty parentheses):
+```
+[%a_] = any alphabet and underscore
+[%w_] = any alphabet, numbers and underscore
+%s = any whitespace character
+
+WORD =
+  [%a_] followed by (1 or more [%w_])
+
+pattern =
+  WORD followed by (one or more %s) followed by WORD
+```
+
+Afterwards, you add an entry `["my"] = "literal"` in the `symbols` table.
+You test the syntax with `my function` found that `"my"` isn't highlighted as `literal`. Why did that happen?
+
+**`symbols` table requires an exact match**.
+If you look carefully, the empty parentheses (`()`) is placed **after the space**!
+This tells Lite XL that `WORD followed by (one or more %s)` is a token, which will match `my ` (note the space in the match).
+
+The fix is to add a `normal` token for the whitespace between the two tokens:
+
+```lua
+{ pattern = "[%a_][%w_]+()%s+()[%a_][%w_]+", type = { "keyword2", "normal", "symbol" } }
+```
+
+#### Case 2: Patterns & `symbols` tokens
+
+One might assume that Lite XL magically matches text against the `symbols` table. This is not the case.
+
+In some languages, people may add a generic pattern to delegate the matching to the `symbols` table.
+
+```lua
+{ pattern = "[%a_][%w_]*", "symbol" }
+```
+
+However, the `symbols` table may look like this:
+
+```lua
+symbols = {
+  ["my-symbol"] = "function",
+  ["..something_else"] = "literal"
+}
+```
+
+`"my-symbol` contains a dash (`-`) and `"..something_else"` contains 2 dots (`.`).
+None of the characters are matched by `[%a_][%w_]*`!
+
+**Beware of the text you intend to match in the `symbols` table.**
+**If you want to use it, you need to ensure that it can matched by one of the patterns.**
+
+The correct patterns are:
+```lua
+{ pattern = "[%a_][%w%-_]*", "symbol" },
+{ pattern = "%.%.[%a_][%w_]*", "symbol" },
 ```
 
 ## Testing Your New Syntax

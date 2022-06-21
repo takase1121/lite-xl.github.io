@@ -706,7 +706,12 @@ The 3rd part, the <code>&#39;\&#39;</code> part in this example, specifies the c
 
 <h3 id="symbols">Symbols</h3>
 
-<p>The symbols section allows you to assign token types to particular keywords or strings - usually reserved words in the language you are highlighting.</p>
+<blockquote>
+<p>This is <strong>not related to the <code>symbol</code> token type</strong>.</p>
+</blockquote>
+
+<p>The symbols section allows you to assign token types to particular keywords or strings - usually reserved words in the language you are highlighting.
+The token type in this section <strong>always take precedence</strong> over token types declared in patterns.</p>
 
 <p>For example this highlights <code>Host</code> using the <code>function</code> token type, <code>HostName</code> as a <code>keyword</code> and <code>yes</code>, <code>no</code>, <code>any</code> &amp; <code>ask</code> as a <code>literal</code>:</p>
 <pre><span class="p">[</span><span class="s2">"Host"</span><span class="p">]</span>                         <span class="o">=</span> <span class="s2">"function"</span><span class="p">,</span>
@@ -717,6 +722,63 @@ The 3rd part, the <code>&#39;\&#39;</code> part in this example, specifies the c
 <span class="p">[</span><span class="s2">"any"</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"literal"</span><span class="p">,</span>
 <span class="p">[</span><span class="s2">"ask"</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"literal"</span><span class="p">,</span>
 </pre>
+<h4 id="tips-double-check-your-patterns">Tips: double check your patterns!</h4>
+
+<p>There are a few common mistakes that can be made when using the <code>symbols</code> table in conjunction with patterns.</p>
+
+<h5 id="case-1-spaces-between-two-symbols-tokens">Case 1: Spaces between two <code>symbols</code> tokens</h5>
+
+<p>Let&#39;s have an example:</p>
+<pre><span class="p">{</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s2">"[%a_][%w_]+%s+()[%a_][%w_]+"</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"keyword2"</span><span class="p">,</span> <span class="s2">"symbol"</span> <span class="p">}</span> <span class="p">}</span>
+</pre>
+<p>Let&#39;s explain the pattern a bit (omitting the empty parentheses):
+```
+[%a<em>] = any alphabet and underscore
+[%w</em>] = any alphabet, numbers and underscore
+%s = any whitespace character</p>
+
+<p>WORD =
+  [%a<em>] followed by (1 or more [%w</em>])</p>
+
+<p>pattern =
+  WORD followed by (one or more %s) followed by WORD
+```</p>
+
+<p>Afterwards, you add an entry <code>[&quot;my&quot;] = &quot;literal&quot;</code> in the <code>symbols</code> table.
+You test the syntax with <code>my function</code> found that <code>&quot;my&quot;</code> isn&#39;t highlighted as <code>literal</code>. Why did that happen?</p>
+
+<p><strong><code>symbols</code> table requires an exact match</strong>.
+If you look carefully, the empty parentheses (<code>()</code>) is placed <strong>after the space</strong>!
+This tells Lite XL that <code>WORD followed by (one or more %s)</code> is a token, which will match <code>my</code> (note the space in the match).</p>
+
+<p>The fix is to add a <code>normal</code> token for the whitespace between the two tokens:</p>
+<pre><span class="p">{</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s2">"[%a_][%w_]+()%s+()[%a_][%w_]+"</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"keyword2"</span><span class="p">,</span> <span class="s2">"normal"</span><span class="p">,</span> <span class="s2">"symbol"</span> <span class="p">}</span> <span class="p">}</span>
+</pre>
+<h4 id="case-2-patterns-symbols-tokens">Case 2: Patterns &amp; <code>symbols</code> tokens</h4>
+
+<p>One might assume that Lite XL magically matches text against the <code>symbols</code> table. This is not the case.</p>
+
+<p>In some languages, people may add a generic pattern to delegate the matching to the <code>symbols</code> table.</p>
+<pre><span class="p">{</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s2">"[%a_][%w_]*"</span><span class="p">,</span> <span class="s2">"symbol"</span> <span class="p">}</span>
+</pre>
+<p>However, the <code>symbols</code> table may look like this:</p>
+<pre><span class="n">symbols</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">"my-symbol"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"function"</span><span class="p">,</span>
+  <span class="p">[</span><span class="s2">"..something_else"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"literal"</span>
+<span class="p">}</span>
+</pre>
+<p><code>&quot;my-symbol</code> contains a dash (<code>-</code>) and <code>&quot;..something_else&quot;</code> contains 2 dots (<code>.</code>).
+None of the characters are matched by <code>[%a_][%w_]*</code>!</p>
+
+<p><strong>Beware of the text you intend to match in the <code>symbols</code> table.</strong>
+<strong>If you want to use it, you need to ensure that it can matched by one of the patterns.</strong></p>
+
+<p>The correct patterns are:
+<code>lua
+{ pattern = &quot;[%a_][%w%-_]*&quot;, &quot;symbol&quot; },
+{ pattern = &quot;%.%.[%a_][%w_]*&quot;, &quot;symbol&quot; },
+</code></p>
+
 <h2 id="testing-your-new-syntax">Testing Your New Syntax</h2>
 
 <p>To test your new syntax highlighting you need to do two things:</p>
