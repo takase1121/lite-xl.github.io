@@ -13,14 +13,24 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
+      - name: Install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
       - name: Install gems
         run: gem install redcarpet rouge
+      - name: Install postcss and minifiers
+        run: npm i -g postcss-cli cssnano autoprefixer esbuild
       - name: Build (for forks)
         if: ${{ github.repository_owner != 'lite-xl' }}
         run: ruby site.rb "/$(echo '${{ github.repository }}' | cut -d/ -f2)"
       - name: Build (for lite-xl org)
         if: ${{ github.repository_owner == 'lite-xl' }}
         run: ruby site.rb
+      - name: Uglify
+        run: |
+          esbuild assets/javascript.js --bundle --minify --outfile=assets/javascript.js --target=chrome58,firefox57,safari11,edge16
+          postcss --use autoprefixer --use cssnano -m -o assets/stylesheet.css assets/stylesheet.css
       - name: Upload to GitHub pages (for lite-xl org)
         if: ${{ github.repository_owner == 'lite-xl' }}
         uses: peaceiris/actions-gh-pages@v3
