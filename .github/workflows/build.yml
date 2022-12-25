@@ -17,10 +17,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+          cache: npm
       - name: Install gems
         run: gem install redcarpet rouge
-      - name: Install postcss and minifiers
-        run: npm i -g postcss-cli cssnano autoprefixer esbuild
       - name: Set environment variables
         run: echo "SITE_ROOT=deploy" >> $GITHUB_ENV
       - name: Build (for forks)
@@ -29,10 +28,8 @@ jobs:
       - name: Build (for lite-xl org)
         if: ${{ github.repository_owner == 'lite-xl' }}
         run: ruby site.rb
-      - name: Uglify
-        run: |
-          esbuild assets/javascript.js --bundle --minify --allow-overwrite --outfile=assets/javascript.js --target=chrome58,firefox57,safari11,edge16
-          postcss --use autoprefixer --use cssnano -m -o assets/stylesheet.css assets/stylesheet.css
+      - name: Minify files
+        run: npm i
       - name: Upload to GitHub pages (for lite-xl org)
         if: ${{ github.repository_owner == 'lite-xl' }}
         uses: peaceiris/actions-gh-pages@v3
