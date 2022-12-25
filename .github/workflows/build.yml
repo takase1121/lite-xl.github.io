@@ -31,7 +31,7 @@ jobs:
         run: ruby site.rb
       - name: Uglify
         run: |
-          esbuild assets/javascript.js --bundle --minify --outfile=assets/javascript.js --target=chrome58,firefox57,safari11,edge16
+          esbuild assets/javascript.js --bundle --minify --allow-overwrite --outfile=assets/javascript.js --target=chrome58,firefox57,safari11,edge16
           postcss --use autoprefixer --use cssnano -m -o assets/stylesheet.css assets/stylesheet.css
       - name: Upload to GitHub pages (for lite-xl org)
         if: ${{ github.repository_owner == 'lite-xl' }}
