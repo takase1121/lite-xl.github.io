@@ -1,8 +1,1 @@
-window.addEventListener('DOMContentLoaded', function() {
-  function click(selector, callback) { document.querySelectorAll(selector).forEach(function(e) { e.addEventListener('click', function(ev) { callback(ev, e); }); }) }
-  function hideMenus(except) { document.querySelectorAll('menu.active').forEach(function(e) { if (e != except) e.classList.remove('active'); }) }
-  click('menu', function(ev, e) { hideMenus(e); ev.stopPropagation(); e.classList.toggle('active'); });
-  click('expander', function() { document.querySelectorAll('links').forEach(function(e) { e.classList.toggle('active'); }); });
-  click('body', hideMenus);
-  document.querySelectorAll('menu h2 a').forEach(function(e) { e.parentNode.innerHTML = e.innerHTML; })
-});
+(()=>{window.addEventListener("DOMContentLoaded",function(){function t(n,e){document.querySelectorAll(n).forEach(function(o){o.addEventListener("click",function(i){e(i,o)})})}function c(n){document.querySelectorAll("menu.active").forEach(function(e){e!=n&&e.classList.remove("active")})}t("menu",function(n,e){c(e),n.stopPropagation(),e.classList.toggle("active")}),t("expander",function(){document.querySelectorAll("links").forEach(function(n){n.classList.toggle("active")})}),t("body",c),document.querySelectorAll("menu h2 a").forEach(function(n){n.parentNode.innerHTML=n.innerHTML})});})();
