@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - System API</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,92 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-tutorials-overview-system'>
+        <h1 id="system-api">System API</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>This is where Lite XL&#39;s lua code interact with its underlying C engine.
+Some of the functions here will be omitted because they&#39;re not useful for
+plugins.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<h2 id="clipboard">Clipboard</h2>
+
+<ul>
+<li><code>system.set_clipboard(text)</code> sets the clipboard content.</li>
+<li><code>system.get_clipboard()</code> retrieves the content of the clipboard.</li>
+</ul>
+
+<h2 id="file-directory-manipulation">File / Directory manipulation</h2>
+
+<ul>
+<li><code>system.list_dir(dir)</code> returns a list of filenames in a directory.</li>
+<li><code>system.rmdir(dir)</code> removes a directory. Use this instead of <code>os.remove()</code>.
+<strong>The directory must be empty.</strong></li>
+<li><code>system.chdir(dir)</code> changes the current working directory (like <code>cd</code>).</li>
+<li><code>system.mkdir(dir)</code> creates a new directory.
+<strong>It does not recursively create directories.</strong></li>
+<li><code>system.absolute_path(path)</code> resolves the path components (<code>.. and .</code>) to an absolute path.</li>
+<li><code>system.get_file_info(path)</code> returns info about a path.
+
+<ul>
+<li><code>modified</code>: last modification time of the file in seconds since UNIX epoch.</li>
+<li><code>size</code>: file size in bytes.</li>
+<li><code>type</code>: Path type (<code>&quot;file&quot;</code> or <code>&quot;dir&quot;</code>).</li>
+</ul></li>
+</ul>
+
+<h2 id="timing">Timing</h2>
+
+<ul>
+<li><code>system.get_time()</code> returns time in seconds (as floating point number) since Lite XL started.
+Use this instead of <code>os.time()</code> for higher precision timers.</li>
+<li><code>system.sleep(time)</code> sleeps for <code>time</code> in milliseconds.
+<strong>Do not use this. Write asynchronous code.</strong></li>
+</ul>
+
+<h2 id="window-manipulation">Window manipulation</h2>
+
+<ul>
+<li><code>system.set_window_opacity(o)</code> sets the window opacity from 0 to 1.</li>
+<li><code>system.set_window_title(title)</code> sets the window title.</li>
+<li><code>system.set_window_mode(mode)</code> sets window mode:
+
+<ul>
+<li><code>&quot;normal&quot;</code>: also known as &quot;restored&quot; on Windows.</li>
+<li><code>&quot;maximized&quot;</code>: Maximize the window.</li>
+<li><code>&quot;minimized&quot;</code>: Minimize the window.</li>
+<li><code>&quot;fullscreen&quot;</code>: Fullscreen</li>
+</ul></li>
+<li><code>system.set_window_bordered(bordered)</code> enables or disable window border (decoration).</li>
+<li><code>system.set_window_hit_test(height, control_width, resize_border)</code> sets window hit test (used for
+<code>config.borderless</code> to make custom drawn border interactable).
+
+<ul>
+<li>If no argument is supplied, reset the hit test values.</li>
+<li><code>height</code>: height of the title bar.</li>
+<li><code>controls_width</code>: Not too sure about this, but it should be the size of the title bar controls
+(Maximize, Minimize and Normal buttons on the right).
+It seems to be fixed at the right side of the title bar.</li>
+<li><code>resize_border</code>: Number of pixels reserved for resizing the window.
+(setting this to a large value means that you can resize the window way easier)</li>
+</ul></li>
+<li><code>system.get_window_size()</code> gets the window size.</li>
+<li><code>system.set_window_size(w, h, x, y)</code> sets the window size (and also position).</li>
+<li><code>system.window_has_focus()</code> checks whether the window is in focus.</li>
+<li><code>system.show_fatal_error(title, msg)</code> shows an system error message box.
+<strong>Use nagview whenever possible.</strong></li>
+</ul>
+
+<h2 id="misc">Misc</h2>
+
+<ul>
+<li><code>system.exec(command)</code> runs a command. Use the <a title=''  href='/en/tutorials/overview/process'>Process API</a> instead of this.</li>
+<li><code>system.fuzzy_match(haystack, needle, file)</code> generates a score depends on how close the needle
+matches the haystack.
+
+<ul>
+<li><code>file</code>: match backwards (more accurate for filename matching).</li>
+</ul></li>
+</ul>
 
       </page>
       <sidebar>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Using system fonts</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,54 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-tutorials-system-fonts'>
+        <h1 id="using-system-fonts">Using system fonts</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>lite-xl does not provide a convenient way to use fonts on the system.
+There is literally _different APIs for the each platforms we support (Windows, Linux and Mac).
+This is where <a title='' target='_blank' href='https://www.freedesktop.org/wiki/Software/fontconfig/'>fontconfig</a> comes to our rescue. fontconfig is
+installable on a lot of OSes.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<p>lite-xl has a <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl-plugins/blob/master/plugins/fontconfig.lua'>fontconfig plugin</a> that we can use to find system fonts.</p>
+
+<h2 id="installing-fontconfig">Installing fontconfig</h2>
+
+<h4 id="windows">Windows</h4>
+
+<p><a title='' target='_blank' href='https://github.com/takase1121/mingw-w64-fontconfig'>mingw-w64-fontconfig</a> provides a build that can be used directly on Windows.
+Download the file, extract it to somewhere and (optionally) add it to the PATH.</p>
+
+<h4 id="linux">Linux</h4>
+
+<p>Check your distro-specific instructions.</p>
+<pre><span class="c"># ubuntu / debian</span>
+apt <span class="nb">install </span>fontconfig
+<span class="c"># arch</span>
+pacman <span class="nt">-Su</span> fontconfig
+<span class="c"># fedora</span>
+dnf <span class="nb">install </span>fontconfig
+...
+</pre>
+<h4 id="macos">MacOS</h4>
+<pre>brew <span class="nb">install </span>fontconfig
+</pre>
+<h3 id="setting-up">Setting up</h3>
+
+<ol>
+<li>Install the plugin</li>
+<li>Put this in your user module:</li>
+</ol>
+<pre><span class="kd">local</span> <span class="n">fontconfig</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"plugins.fontconfig"</span>
+<span class="n">fontconfig</span><span class="p">.</span><span class="n">use</span> <span class="p">{</span>
+     <span class="n">font</span> <span class="o">=</span> <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">"sans"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="p">},</span>
+     <span class="n">code_font</span> <span class="o">=</span> <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">"monospace"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">SCALE</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+<p><code>&quot;sans&quot;</code> and <code>&quot;monospace&quot;</code> can be any <a title='' target='_blank' href='https://www.freedesktop.org/software/fontconfig/fontconfig-user.html'>fontconfig syntax. (check &quot;Font Names&quot;)</a></p>
+
+<p>Note that the font might not load immediately (because we need to wait for <code>fc-match</code> to return.
+If you want that, replace <code>fontconfig.use</code> with <code>fontconfig.use_blocking</code>. Doing this will force
+lite-xl to wait for <code>fc-match</code>, which can be much slower.</p>
 
       </page>
       <sidebar>

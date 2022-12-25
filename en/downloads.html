@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Downloads</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,13 +67,38 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-downloads'>
+        <h1 id="downloads">Downloads</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<h2 id="binary-packages">Binary packages</h2>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<p>Binary packages are available on the <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl/releases/latest'>GitHub releases page</a>.</p>
 
+<h2 id="install-via-package-management">Install via package management</h2>
+
+<p>Alternatively, you can install lite-xl from your distribution&#39;s package manager.
+<strong>These packages are maintained by the community and may be outdated.</strong></p>
+
+<ul>
+<li><a title='' target='_blank' href='https://github.com/microsoft/winget-cli/discussions/223#discussion-15735'>Windows</a> (<a title='' target='_blank' href='https://community.chocolatey.org/packages/lite-xl'>Chocolatey</a> / <a title='' target='_blank' href='https://github.com/ScoopInstaller/Extras/blob/master/bucket/lite-xl.json'>Scoop</a>)</li>
+<li><a title='' target='_blank' href='https://ports.macports.org/port/lite-xl/'>Mac OS</a> (MacPorts)</li>
+<li><a title='' target='_blank' href='https://aur.archlinux.org/packages/lite-xl/'>Arch Linux</a> (AUR)</li>
+<li><a title='' target='_blank' href='https://github.com/NixOS/nixpkgs/blob/release-21.11/pkgs/applications/editors/lite-xl/default.nix'>NixOS</a> (nixpkgs)</li>
+<li><a title='' target='_blank' href='https://copr.fedorainfracloud.org/coprs/sentry/lite/packages/'>Fedora</a> (copr)</li>
+</ul>
+<pre>choco <span class="nb">install </span>lite-xl                                        <span class="c"># chocolatey</span>
+scoop bucket add extras <span class="o">&amp;&amp;</span> scoop <span class="nb">install </span>lite-xl             <span class="c"># scoop</span>
+<span class="nb">sudo </span>port <span class="nb">install </span>lite-xl                                    <span class="c"># macports</span>
+yay <span class="nt">-S</span> lite-xl                                               <span class="c"># or your favorite AUR helper</span>
+nix-env <span class="nt">-i</span> lite-xl                                           <span class="c"># nixos</span>
+<span class="nb">sudo </span>dnf copr <span class="nb">enable </span>sentry/lite <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>dnf <span class="nb">install </span>lite-xl <span class="c"># fedora (copr)</span>
+</pre>
+<h2 id="source-code">Source Code</h2>
+
+<p>Source code is available on <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl'>GitHub</a>, by downloading zip or tar archives,
+or directly via git:</p>
+<pre>git clone https://github.com/lite-xl/lite-xl.git
+</pre>
       </page>
       <sidebar>
         <box>

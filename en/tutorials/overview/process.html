@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Process API</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,114 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-tutorials-overview-process'>
+        <h1 id="process-api">Process API</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>Lite XL provides a process API to launch external applications. This API is meant to replace
+lua&#39;s <code>io.popen</code> and lite&#39;s <a title='' target='_blank' href='https://github.com/rxi/console/blob/fb3d414d085d4110364314d6cd8380dc1d386249/init.lua#L100'>pipe-to-a-file</a> approach.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<p>Advantages of this API includes:</p>
+
+<ul>
+<li>Proper argument escaping (arguments are supplied via a table)</li>
+<li>Nonblocking IO</li>
+<li>Able to detach processes from Lite XL <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl/pull/535'>(in progress)</a></li>
+<li>Does not create temporary files</li>
+<li>Mostly cross-platform (does not require special code for each shell)</li>
+</ul>
+
+<h2 id="using-the-process-api">Using the Process API</h2>
+
+<h3 id="error-handling">Error handling</h3>
+
+<ul>
+<li><code>process.start()</code> may throw errors if it cannot run the program.</li>
+<li><code>process.read*</code> and <code>process.write</code> functions may throw errors if
+
+<ul>
+<li>the process ended</li>
+<li>the process closed the stream</li>
+<li>you closed the stream</li>
+</ul></li>
+<li>there might be other errors to look forward to too</li>
+</ul>
+
+<h3 id="starting-a-process">Starting a process</h3>
+
+<p>To start a process, use <code>process.start(args, options)</code>.</p>
+
+<p>Here are some of the more useful arguments.</p>
+
+<ul>
+<li><code>args</code>: The executable and any arguments, eg: <code>{ &quot;sh&quot;, &quot;-c&quot;, &quot;echo hello world&quot; }</code></li>
+<li><code>options</code>: Options for <code>process.start()</code>
+
+<ul>
+<li><code>env</code>: A key-value table containing the env. <strong>Note that if this is provided,
+    environment variables will not be inherited.</strong></li>
+<li><code>stdin</code>: Specify where to redirect stdin</li>
+<li><code>stdout</code>: Specify where to redirect stdout</li>
+<li><code>stderr</code>: Specify where to redirect stderr</li>
+</ul></li>
+</ul>
+
+<p>for <code>options.std{in,out,err}</code>, valid values are:</p>
+
+<ul>
+<li><code>process.REDIRECT_PIPE</code> (Make it available to subprocess API for reading / writing)</li>
+<li><code>process.REDIRECT_DISCARD</code> (Discard the output. Use this to prevent buffering)</li>
+<li><code>process.REDIRECT_STDOUT</code> (<code>stderr</code> only, for redirecting <code>stderr</code> to <code>stdout</code>)</li>
+</ul>
+
+<h3 id="reading-from-process">Reading from process</h3>
+
+<p>To read from <code>stdout</code> or <code>stderr</code> of a process, use <code>process:read_stdout()</code> and
+<code>process:read_stderr()</code> respectively.</p>
+
+<p>You can specify a numeric argument to them, which will change the size of internal buffer used
+to read the output.</p>
+
+<p>Alternatively, you could use <code>process:read()</code> with <code>process.STREAM_STDERR</code> and <code>process.STREAM_STDOUT</code>.</p>
+
+<p><strong>Example:</strong></p>
+<pre><span class="kd">local</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">process</span><span class="p">.</span><span class="n">start</span> <span class="p">{</span> <span class="s2">"sh"</span><span class="p">,</span> <span class="s2">"-c"</span><span class="p">,</span> <span class="s2">"echo hello world!"</span> <span class="p">}</span>
+
+<span class="c1">-- do not use `while proc:running()` if you care about output.</span>
+<span class="c1">-- The process could die and leave data in the buffer</span>
+<span class="c1">-- You should just read until `proc:read_stdout()` returns nil</span>
+<span class="k">while</span> <span class="kc">true</span> <span class="k">do</span>
+  <span class="kd">local</span> <span class="n">rdbuf</span> <span class="o">=</span> <span class="n">proc</span><span class="p">:</span><span class="n">read_stdout</span><span class="p">()</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">rdbuf</span> <span class="k">then</span> <span class="k">break</span> <span class="k">end</span>
+  <span class="c1">-- yay, output</span>
+<span class="k">end</span>
+</pre>
+<h3 id="writing-to-process">Writing to process</h3>
+
+<p>You can use <code>process:write(data)</code> to write a string to <code>stdin</code>.</p>
+
+<h3 id="checking-completion">Checking completion</h3>
+
+<ul>
+<li><code>process:running()</code> returns a boolean to indicate whether if the process is running.</li>
+<li><code>process:wait(time)</code> also does the same thing, but you specify how long it should wait (or 0 to return immediately).</li>
+</ul>
+
+<h3 id="terminating-process">Terminating process</h3>
+
+<ul>
+<li><code>process:terminate()</code> sends SIGTERM (or Windows equivalent) to the process.</li>
+<li><code>process:kill()</code> sends SIGKILL (or Windows equivalent) to the progress.
+<strong>Use this only if <code>process:terminate()</code> cannot kill the process, <a title='' target='_blank' href='http://turnoff.us/geek/dont-sigkill/'>as it can cause issues</a>.</strong></li>
+</ul>
+
+<h3 id="misc">Misc</h3>
+
+<ul>
+<li><code>process:pid()</code> returns the PID of the process.
+<strong>There are no guarantees for this PID to be correct if the process terminated early.</strong></li>
+<li><code>process:returncode()</code> returns the exit code of the process, if any</li>
+<li><code>process:close_stream()</code> closes <code>stdin</code>, <code>stdout</code> or <code>stderr</code> stream of the process.</li>
+</ul>
 
       </page>
       <sidebar>

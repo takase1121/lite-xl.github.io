@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Features</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,69 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-about-features'>
+        <h1 id="features">Features</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>Currently, Lite XL offers a lot of features out of the box.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<h2 id="cross-platform">Cross-Platform</h2>
+
+<p>We currently support Windows, Linux and MacOS (with Retina display support).</p>
+
+<h2 id="lightweight">Lightweight</h2>
+
+<p>We are currently around 3MB in size and takes about 10MB in RAM (can be lower). No Electron / WebView involved. The whole thing is just Lua running on a rendering engine.</p>
+
+<h2 id="extensible">Extensible</h2>
+
+<p>While the editor is minimal by default, it is very extensible using Lua. In fact, a lot of features are provided by plugins. For example, <a title='' target='_blank' href='https://github.com/jgmdev/lite-xl-lsp'>VSC-like intellisense</a></p>
+
+<h2 id="better-font-rendering">Better font rendering</h2>
+
+<p>The editor looks good in screen of any sizes. Some other options are also configurable, such as hinting and antialiasing.</p>
+
+<h2 id="multi-cursor-editing">Multi-cursor editing</h2>
+
+<p>You can now place multiple cursors by <code>ctrl</code> + <code>lclick</code> on lines or <code>ctrl</code> + <code>shift</code> + <code>up</code> or <code>ctrl</code> + <code>shift</code> + <code>down</code>.</p>
+
+<hr>
+
+<p>Here are some features that aren&#39;t implemented with the rationales behind it.
+Some of these may be implemented via plugins.
+We encourage you to give it a shot.</p>
+
+<h2 id="hardware-accelerated-rendering">Hardware accelerated rendering</h2>
+
+<p><strong>tl;dr -  franko stated that he isn&#39;t considering using OpenGL due to the skills and work involved.</strong></p>
+
+<p>Hardware acceleration was brought up in this <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl/discussions/450'>discussion</a>.
+Takase had made 2 attempts at this - at first using <a title='' target='_blank' href='https://github.com/inniyah/nanovg'>NanoVG</a> and then forcing SDL to use GPU rendering.
+In both attempts, the performance gains at best is negligible, while at worst its completely unusable.
+Right now, we decided to focus on optimizing the software renderer and various part of Lua code.</p>
+
+<h2 id="system-fonts">System fonts</h2>
+
+<p>This is painful because various systems has their own mechanism of managing fonts.
+For now, users can use the <a title='' target='_blank' href='https://github.com/lite-xl/lite-xl-plugins/blob/master/plugins/fontconfig.lua'>fontconfig plugin</a>.
+Fontconfig is widely available on Linux and <a title='' target='_blank' href='https://formulae.brew.sh/formula/fontconfig'>installable on MacOS</a>, while <a title='' target='_blank' href='https://github.com/takase1121/mingw-w64-fontconfig'>Windows builds</a> are available.
+In the future, we might consider adding API to read font metadata, allowing us to write a fontconfig alternative in Lua. (no promises here)</p>
+
+<h2 id="opening-unc-paths-on-windows-network-drives-accessing-wsl2-files-from-windows">Opening UNC paths on Windows (network drives, accessing WSL2 files from Windows)</h2>
+
+<p>Our path handling code can only handle POSIX and Windows paths.
+We also aren&#39;t sure how Lite XL will behave in these scenarios.</p>
+
+<h2 id="inter-window-communication-dragging-tabs-between-windows-and-other-magic">Inter-window communication (dragging tabs between windows and other magic)</h2>
+
+<p>This is by far the hardest to achieve.
+Lite XL has no intention to link to any widget toolkits (Qt and GTK) which are required for these features.
+An alternative approach is to create our own IPC mechanism, but that&#39;s <a title='' target='_blank' href='https://en.wikipedia.org/wiki/D-Bus'>reinventing</a> <a title='' target='_blank' href='https://en.wikipedia.org/wiki/Inter-Client_Communication_Conventions_Manual'>the</a> <a title='' target='_blank' href='https://github.com/swaywm/wlroots'>wheel</a>.</p>
+
+<h2 id="integrated-terminal">Integrated terminal</h2>
+
+<p>A terminal is complex to implement.
+There are projects that <em>can</em> be ported to Lua, such as <a title='' target='_blank' href='https://xtermjs.org/'>xterm.js</a>.
+If someone is interested, they can do so.</p>
 
       </page>
       <sidebar>

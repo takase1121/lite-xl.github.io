@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Regex API</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,64 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-tutorials-overview-regex'>
+        <h1 id="regex-api">Regex API</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>This API provides PCRE regular expressions for those who needs more power in matching text.
+This API written in C and Lua.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<h2 id="creating-a-regex">Creating a regex</h2>
+
+<p>Use <code>regex.compile(pattern, options)</code> to compile a regex.</p>
+
+<ul>
+<li><code>pattern</code>: The regex pattern</li>
+<li><code>options</code>: regex modifiers as a string, eg <code>&quot;im&quot;</code>
+
+<ul>
+<li><code>&quot;i&quot;</code>: Case-insensitive search</li>
+<li><code>&quot;m&quot;</code>: Multiline search</li>
+<li><code>&quot;s&quot;</code>: Match all characters with dot (<code>.</code>), <strong>including newlines.</strong></li>
+</ul></li>
+</ul>
+
+<h2 id="matching">Matching</h2>
+
+<h3 id="low-level-functions">Low level functions</h3>
+
+<ul>
+<li><code>regex:cmatch(str, offset, options)</code> low-level matching function
+
+<ul>
+<li><code>str</code>: The string to match against</li>
+<li><code>offset</code>: Where to start matching</li>
+<li><code>options</code>: A bit field of options</li>
+<li><code>regex.ANCHORED</code>: Only match from the start of the string</li>
+<li><code>regex.ENDANCHORED</code>: Only match from the end of the string</li>
+<li><code>regex.NOTBOL</code>: String is not beginning of line</li>
+<li><code>regex.NOTEOL</code>: String is not the end of line</li>
+<li><code>regex.NOTEMPTY</code>: Do not match an empty string</li>
+<li><code>regex.NOTEMPTY_ATSTART</code>: Do not match empty string at the start</li>
+</ul></li>
+</ul>
+
+<p><strong>Note: <code>regex:cmatch()</code> returns wrong indexes (currently at version 2.0.2).
+  The end index returned by <code>regex:cmatch()</code> is always off by 1 (-1 to get the actual end index).</strong></p>
+
+<h3 id="high-level-functions">High level functions</h3>
+
+<p>All the functions below can be in 2 forms:
+- <code>regex:fn(...)</code> where <code>regex</code> is the compiled regex instance
+- <code>regex.fn(pattern, ...)</code> where <code>pattern</code> is a pattern string to be compiled and used directly.</p>
+
+<p>We will only document the first form.</p>
+
+<ul>
+<li><code>regex:match(str, offset, options)</code> high level matching function. This function accepts
+the same arguments as <code>regex:cmatch()</code></li>
+<li><code>regex:gsub(str, replacement)</code> replaces matches in <code>str</code> with <code>replacement</code>.
+Capture groups are identified with <code>\0</code> to <code>\9</code>, this might change in the future.</li>
+</ul>
 
       </page>
       <sidebar>

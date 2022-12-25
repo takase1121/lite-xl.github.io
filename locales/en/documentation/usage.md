@@ -215,9 +215,9 @@ Plugins can be downloaded from the [plugins repository][2].
 
 ## Restarting the editor
 
-If you modifies the user configuration file or some of the Lua implementation files
+If you modify the user configuration file or some of the Lua implementation files
 you may restart the editor using the command `core:restart`.
-All the application will be restarting by keeping the window that is already in use.
+The entire application will be restarting by keeping the window that is already in use.
 
 ## Color Themes
 
@@ -241,6 +241,6 @@ Color themes can be downloaded from the [color themes repository][3].
 They are included with Lite XL release packages.
 
 
-[1]: documentation/keymap
+[1]: /en/documentation/keymap
 [2]: https://github.com/lite-xl/lite-xl-plugins
 [3]: https://github.com/lite-xl/lite-xl-colors

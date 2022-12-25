@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Lite XL</title>
+    <title>Lite XL - Build</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg" href="/assets/img/logo.svg">
@@ -67,12 +67,121 @@
       <expander/>
     </header>
     <content>
-      <page id='page-index'>
-        <h1 id="lite-xl">Lite XL</h1>
+      <page id='page-documentation-build'>
+        <h1 id="build">Build</h1>
 
-<p>A lightweight, <em>simple</em>, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from <a title='' target='_blank' href='https://github.com/rxi/lite/'>lite</a>.</p>
+<p>Once you have downloaded the source code, you can build Lite XL yourself using Meson.
+In addition, the <code>build-packages.sh</code> script can be used to compile Lite XL and
+create an OS-specific package for Linux, Windows or macOS.</p>
 
-<p><a title='' target='_blank' href='/assets/img/editor.png'><img src="/assets/img/editor.png" alt="Lite XL Editor"></a></p>
+<p>The following libraries are required:</p>
+
+<ul>
+<li>freetype2</li>
+<li>SDL2</li>
+</ul>
+
+<p>The following libraries are <strong>optional</strong>:</p>
+
+<ul>
+<li>libagg</li>
+<li>Lua 5.2</li>
+</ul>
+
+<p>If they are not found, they will be downloaded and compiled by Meson.
+Otherwise, if they are present, they will be used to compile Lite XL.</p>
+
+<h2 id="build-script">Build Script</h2>
+
+<p>If you compile Lite XL yourself,
+it is recommended to use the script <code>build-packages.sh</code>:</p>
+<pre>bash build-packages.sh <span class="nt">-h</span>
+</pre>
+<p>The script will run Meson and create a tar compressed archive with the application or,
+for Windows, a zip file. Lite XL can be easily installed
+by unpacking the archive in any directory of your choice.</p>
+
+<p>On Windows two packages will be created, one called &quot;portable&quot; using the &quot;data&quot;
+folder next to the executable and the other one using a unix-like file layout.
+Both packages works correctly. The one with unix-like file layout is meant
+for people using a unix-like shell and the command line.</p>
+
+<p>Please note that there aren&#39;t any hard-coded directories in the executable,
+so that the package can be extracted and used in any directory.</p>
+
+<h2 id="portable">Portable</h2>
+
+<p>When performing the <code>meson setup</code> command you may enable the <code>-Dportable=true</code>
+option to specify whether files should be installed as in a portable application.</p>
+
+<p>If <code>portable</code> is enabled, Lite XL is built to use a <code>data</code> directory placed next
+to the executable.
+Otherwise, Lite XL will use unix-like directory locations.
+In this case, the <code>data</code> directory will be <code>$prefix/share/lite-xl</code>
+and the executable will be located in <code>$prefix/bin</code>.
+<code>$prefix</code> is determined when the application starts as a directory such that
+<code>$prefix/bin</code> corresponds to the location of the executable.</p>
+
+<p>The <code>user</code> directory does not depend on the <code>portable</code> option and will always be
+<code>$HOME/.config/lite-xl</code>.
+<code>$HOME</code> is determined from the corresponding environment variable.
+As a special case on Windows the variable <code>$USERPROFILE</code> will be used instead.</p>
+
+<h2 id="linux">Linux</h2>
+
+<p>On Debian-based systems the required libraries and Meson can be installed
+using the following commands:</p>
+<pre><span class="c"># To install the required libraries:</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>libfreetype6-dev libsdl2-dev
+
+<span class="c"># To install Meson:</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>meson
+<span class="c"># or pip3 install --user meson</span>
+</pre>
+<p>To build Lite XL with Meson the commands below can be used:</p>
+<pre>meson setup <span class="nt">--buildtype</span><span class="o">=</span>release <span class="nt">--prefix</span> &lt;prefix&gt; build
+meson compile <span class="nt">-C</span> build
+<span class="nv">DESTDIR</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span><span class="s2">/lite-xl"</span> meson <span class="nb">install</span> <span class="nt">--skip-subprojects</span> <span class="nt">-C</span> build
+</pre>
+<p>where <code>&lt;prefix&gt;</code> depends on the OS you are using:
+- on Linux is <code>/usr</code>
+- on macOS application bundle can be <code>&quot;/Lite XL.app&quot;</code></p>
+
+<p>If you are using a version of Meson below 0.54
+you need to use diffent commands to compile and install:</p>
+<pre>meson setup <span class="nt">--buildtype</span><span class="o">=</span>release build
+ninja <span class="nt">-C</span> build
+ninja <span class="nt">-C</span> build <span class="nb">install</span>
+</pre>
+<h2 id="macos">macOS</h2>
+
+<p>macOS is fully supported and a notarized app disk image is provided in the
+<a title='' target='_blank' href='https://github.com/lite-xl/lite-xl/releases/latest/'>release page</a>. 
+In addition the application can be compiled using the generic instructions given above.</p>
+
+<h2 id="windows-msys2">Windows MSYS2</h2>
+
+<p>The build environment chosen for Lite XL on Windows is <a title='' target='_blank' href='https://www.msys2.org/'>MSYS2</a>.
+Follow the install instructions in the link.</p>
+
+<ul>
+<li>Open <code>MinGW 64-bit</code> or <code>MinGW 32-bit</code> shell from the start menu.</li>
+<li>Update the MSYS2 installation with <code>pacman -Syu</code></li>
+<li>Restart the shell</li>
+<li>Install the dependencies:</li>
+</ul>
+<pre>pacman <span class="nt">-S</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-freetype</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-gcc</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-ninja</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-pcre2</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-pkg-config</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-python-pip</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">MINGW_PACKAGE_PREFIX</span><span class="k">}</span><span class="nt">-SDL2</span>
+pip3 <span class="nb">install </span>meson
+</pre>
+<p><code>${MINGW_PACKAGE_PREFIX}</code> expands either to <code>mingw-w64-i686</code> or <code>mingw-w64-x86_64</code>
+depending if the current shell is 32 or 64 bit.</p>
 
       </page>
       <sidebar>

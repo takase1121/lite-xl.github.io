@@ -13,6 +13,6 @@ Built-in APIs:
 - [Regex API][4]
 
 [1]: https://github.com/lite-xl/lite-xl/tree/master/docs
-[2]: tutorials/overview/process
-[3]: tutorials/overview/system
-[4]: tutorials/overview/regex
+[2]: /en/tutorials/overview/process
+[3]: /en/tutorials/overview/system
+[4]: /en/tutorials/overview/regex

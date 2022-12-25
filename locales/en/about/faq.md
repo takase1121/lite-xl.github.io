@@ -69,7 +69,7 @@ these are a list of plugins that just makes Lite XL a lot more pleasant.
 
 #### Where's feature X? How about Y?
 
-You can get more info in the [Features page](/about/features).
+You can get more info in the [Features page](/en/about/features).
 
 
 [LSP]:                https://github.com/jgmdev/lite-xl-lsp

@@ -1,7 +1,7 @@
 /* Global */
 body { margin: 0; line-height: 24px; background: #252529; color: #e1e1e6; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; }
-pages, header { background: #2e2e32; margin: 0 auto; padding: 12px; box-sizing: border-box; }
-pages, page { display: block; width: 100%; }
+header, page { background: #2e2e32; margin: 0 auto; padding: 12px; box-sizing: border-box; }
+page { display: block; width: 100%; color: #999; }
 pre, code { background: #252529; border: 1px solid #e1e1e6; padding: 2px 4px; color: #bbb; }
 pre { overflow-x: auto; padding: 12px; }
 code { white-space: nowrap; }  
@@ -12,7 +12,7 @@ body > * { width: 100%; max-width: 1200px; display: block;  }
 /* Menu */
 header, links, logo { margin: 0 auto 24px auto; display: flex; align-items: center; position: relative; }
 logo > *, header > *, links > *, menu > * { margin: 0; font-size: 16px !important; padding: 0 8px; }
-a, menu, svg { text-decoration: none; color: #c1c1c6; position: relative; cursor: pointer; fill: #c1c1c6; }
+a, menu, svg { text-decoration: none; color: #c1c1c6; vertical-align: middle; position: relative; cursor: pointer; fill: #c1c1c6; }
 menu h2::after { content: ""; width: 12px; display: inline-block; background-size: 12px; margin-left: 4px; background-position: 100% 200%; background-repeat: no-repeat; height: 16px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23c1c1c6' ><polygon points='0,0 100,0 50,50'/></svg>") }
 menu { padding: 0; }
 links h2 { padding: 0 16px; }
@@ -21,6 +21,7 @@ menu.active items { display: block;  }
 menu items { display: none; position: absolute; z-index: 1; top: 24px; background: #2e2e32; min-width: 168px; padding: 8px 16px; border: 1px solid rgba(0,0,0,0.15); }
 menu items > * { padding: 4px; display: block; }
 expander { display: none; width: 30px; height: 30px; cursor: pointer; background-size: contain; background-position: 50% 50%; background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M5,8 l20,0 z M5,15 l20,0 z M5,22 l20,0 z' stroke='%2397979c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); }
+links:nth-last-child(2) { margin-left: auto; }
 
 /* Content */
 content { margin: 0 auto 48px auto;  }
@@ -29,12 +30,11 @@ sidebar h2 { background: #2e2e32; margin: 0; padding: 8px; font-size: 18px; }
 sidebar a { display: block; padding: 8px; margin: 4px; }
 sidebar i { margin-right: 4px; }
 sidebar box { margin-bottom: 24px; border: 1px solid #343a40; display: block; }
-sidebar svg { fill: #bbb; position: relative; top: 2px; margin-right: 4px; }
-pages { display: inline-block; width: calc(100% - 286px); margin-right: 24px; }
-pages h1 { text-align: center; margin-top: 12px; margin-bottom: 32px; }
-pages h1, pages h2, pages h3, pages h4, pages h5 { color: rgba(255,255,255,.75); font-weight: 500; line-height: 36px;  }
-pages h4 { font-size: 24px; margin: 8px 0; }
-pages page { display: none; color: #999; }
+sidebar svg { fill: #bbb; position: relative; margin-right: 4px; vertical-align: middle; }
+page { display: inline-block; width: calc(100% - 286px); margin-right: 24px; }
+page h1 { text-align: center; margin-top: 12px; margin-bottom: 32px; }
+page h1, page h2, page h3, page h4, page h5 { color: rgba(255,255,255,.75); font-weight: 500; line-height: 36px;  }
+page h4 { font-size: 24px; margin: 8px 0; }
 table { width: 100%; border-collapse: collapse; }
 th, td { border: 1px solid #fff; padding: 8px; }
 
@@ -45,8 +45,9 @@ th, td { border: 1px solid #fff; padding: 8px; }
 @media screen and (max-width: 767px) { 
   header { display: block; margin-bottom: 0; }
   links { display: none; padding-left: 26px; }
-  pages { background: #252529; width: 100%; display: block; }
+  links:nth-last-child(2) { display: none; }
   content sidebar { display: none; }
+  page { display: block; background: none; width: 100%; }
   content.index sidebar { display: block; margin: 0 auto; width: 100%; padding: 0 8px; }
   expander { display: block; border: 1px solid #47474c; padding: 4px 8px; position: absolute; right: 24px; top: 16px; }
   links > * { padding: 12px 0 12px 0 !important; }

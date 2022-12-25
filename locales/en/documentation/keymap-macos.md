@@ -3,7 +3,7 @@
 Keymaps on different operating systems have the same functionality, just bound slightly differently
 in order to conform to normal expectations for that operating system.
 
-Currently, there are only two operating system layouts. MacOS, and [everything else](documentation/keymap).
+Currently, there are only two operating system layouts. MacOS, and [everything else](/en/documentation/keymap).
 
 ## Keymap
 
