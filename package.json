@@ -4,7 +4,7 @@
   "description": "The source code for https://lite-xl.com",
   "main": "index.js",
   "scripts": {
-    "install": "esbuild assets/javascript.js --bundle --minify --outfile=deploy/assets/javascript.js --target=es2016 && postcss --use autoprefixer --use cssnano -m -o deploy/assets/stylesheet.css assets/stylesheet.css"
+    "install": "esbuild assets/javascript.js --bundle --sourcemap --minify --outfile=deploy/assets/javascript.js --target=es2016 && postcss --use autoprefixer --use cssnano -m -o deploy/assets/stylesheet.css assets/stylesheet.css"
   },
   "repository": {
     "type": "git",
