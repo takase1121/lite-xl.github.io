@@ -119,7 +119,9 @@ File.write("#{root}sitemap.txt", files.join("\n") + "\n")
 File.write("#{root}posts.json", JSON.generate(indexFile)) if generateIndex
 
 # copy index.html for default locale
-FileUtils.copy_file("#{root}#{default_locale}/index.html", "#{root}index.html")
+unless File.symlink?("#{root}index.html")
+  FileUtils.copy_file("#{root}#{default_locale}/index.html", "#{root}index.html")
+end
 
 # copy other files
 unless root == ""
